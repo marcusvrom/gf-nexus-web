@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guia do Novato — GF Nexus | Primeiros passos em Saphael</title>
+  <meta name="description" content="Guia para iniciantes em Grand Fantasia no GF Nexus: criação de personagem, classes e evolução, sistema de Sprites (ou Elfos), primeiras quests em Baía Azul, combate, progressão e dicas essenciais para começar a jogar.">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Guia do Novato — GF Nexus">
+  <meta property="og:description" content="Seus primeiros passos em Saphael: classes, Sprites (ou Elfos), tutorial e dicas para começar bem no GF Nexus.">
+  <meta property="og:image" content="https://gf-nexus.com/assets/img/img-01-0c581f46.jpg">
+  <meta property="og:url" content="https://gf-nexus.com/guia.html">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- Favicons -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <meta name="theme-color" content="#081428">
+</head>
+<body>
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html#top" aria-label="GF Nexus">
+      <span class="brand-text">
+        <img src="assets/img/logo.png" class="brand-logo" alt="GF Nexus">
+      </span>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="sobre.html" data-i18n="nav.about">Sobre</a>
+      <a href="guia.html" data-i18n="nav.guides">Guias</a>
+      <a href="index.html#classes">Classes</a>
+      <a href="index.html#roadmap">Roadmap</a>
+      <a href="index.html#comunidade" data-i18n="nav.community">Comunidade</a>
+      <a href="noticias.html" data-i18n="nav.news">Notícias</a>
+      <a href="recrutamento.html" data-i18n="nav.recruitment">Recrutamento</a>
+      <a href="index.html#faq">FAQ</a>
+    </nav>
+
+    <div class="nav-cta">
+      <button class="lang-toggle" aria-label="Switch language">
+        <span data-lang="pt-BR">PT</span>
+        <span class="lang-sep">|</span>
+        <span data-lang="en">EN</span>
+      </button>
+      <span class="status-pill"><i class="dot"></i> <span data-i18n="nav.status">Beta em preparação</span></span>
+      <a class="btn btn-primary" href="index.html#beta" data-i18n="nav.cta">Entrar na beta</a>
+    </div>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">&#9776;</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="page-hero-overlay"></div>
+  <div class="wrap page-hero-content">
+    <span class="eyebrow" data-i18n="guia.eyebrow">Guia do Novato &middot; Primeiros passos &middot; Saphael</span>
+    <h1 data-i18n-html="guia.h1">Nunca jogou <em>Grand Fantasia</em>? Comece por aqui.</h1>
+    <p class="lead" data-i18n="guia.lead">
+      Um guia direto para você sair do zero: criar seu personagem, entender o
+      famoso sistema de Sprites, escolher sua classe e dar os primeiros passos
+      em Saphael sem se perder. Feito para quem nunca jogou — e para quem voltou
+      depois de anos.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary btn-lg" href="#passos" data-i18n="guia.cta1">Ver o passo a passo</a>
+      <a class="btn btn-ghost btn-lg" href="https://discord.gg/6YCXdwY2jD" target="_blank" rel="noopener" data-i18n="guia.cta2">Tirar dúvidas no Discord</a>
+    </div>
+  </div>
+</section>
+
+<!-- O QUE É O JOGO -->
+<section class="section" id="sobre-jogo">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker" data-i18n="guia.whatIs.kicker">Antes de tudo</span>
+      <h2 data-i18n="guia.whatIs.h2">O que é Grand Fantasia?</h2>
+      <p class="section-desc" data-i18n-html="guia.whatIs.desc">
+        Um MMORPG de fantasia colorido e leve, conhecido pelo visual fofo, pela
+        aventura em grupo e por uma mecânica única: os <strong>Sprites</strong>
+        (ou Elfos) — companheiros mágicos que coletam materiais e
+        <strong>fabricam seus equipamentos</strong>.
+      </p>
+    </div>
+
+    <div class="pillars">
+      <article class="pillar">
+        <span class="pillar-ico">&#9876;</span>
+        <h3 data-i18n="guia.whatIs.p1.title">Aventura clássica</h3>
+        <p data-i18n="guia.whatIs.p1.text">Combate tab-target, quests, dungeons em grupo e progressão de nível. O ritmo é da era de ouro dos MMORPGs — cada nível é uma conquista.</p>
+      </article>
+      <article class="pillar">
+        <span class="pillar-ico">&#10022;</span>
+        <h3 data-i18n="guia.whatIs.p2.title">Sprites companheiros</h3>
+        <p data-i18n="guia.whatIs.p2.text">O coração do GF. Seu Sprite coleta recursos pelo mundo e manufatura armas e armaduras pra você. Equipamento bom vem do trabalho do seu Sprite.</p>
+      </article>
+      <article class="pillar">
+        <span class="pillar-ico">&#9733;</span>
+        <h3 data-i18n="guia.whatIs.p3.title">Comunidade viva</h3>
+        <p data-i18n="guia.whatIs.p3.text">Parties espontâneas, guildas, comércio entre jogadores e eventos. Muito do que torna o jogo divertido acontece junto com outras pessoas.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PASSO A PASSO -->
+<section class="section section-alt" id="passos">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker" data-i18n="guia.steps.kicker">Do zero ao mundo</span>
+      <h2 data-i18n="guia.steps.h2">Seus primeiros passos em Saphael.</h2>
+      <p class="section-desc" data-i18n="guia.steps.desc">Seis etapas para sair da tela de criação e já estar aventurando.</p>
+    </div>
+
+    <ol class="timeline">
+      <li class="active">
+        <span class="tl-phase" data-i18n="guia.step1.phase">Passo 1</span>
+        <h3 data-i18n="guia.step1.title">Crie sua conta e seu personagem</h3>
+        <p data-i18n-html="guia.step1.text">
+          Registre-se no site, baixe o client e crie seu personagem. Você começa
+          como <strong>Novato</strong> (níveis 1 a 5) — ainda sem classe definida.
+          Não se preocupe em escolher tudo agora: a classe vem depois.
+        </p>
+      </li>
+      <li>
+        <span class="tl-phase" data-i18n="guia.step2.phase">Passo 2</span>
+        <h3 data-i18n="guia.step2.title">Faça o tutorial em Baía Azul</h3>
+        <p data-i18n-html="guia.step2.text">
+          Sua jornada começa na região inicial de <strong>Baía Azul</strong>.
+          Siga as primeiras quests de treinamento (matar alguns monstros simples
+          como as Orugas e Gusanos da região). Elas ensinam o básico de movimento,
+          combate e recompensas, e já te levam ao nível 5 rapidinho.
+        </p>
+      </li>
+      <li>
+        <span class="tl-phase" data-i18n="guia.step3.phase">Passo 3</span>
+        <h3 data-i18n="guia.step3.title">Receba seu primeiro Sprite</h3>
+        <p data-i18n-html="guia.step3.text">
+          Logo no início você ganha seu primeiro <strong>Sprite (Sprite)</strong>.
+          Ele é seu companheiro permanente: aprende a coletar materiais e, mais
+          tarde, a fabricar equipamentos. Cuide bem dele — é ele que vai te vestir
+          ao longo do jogo.
+        </p>
+      </li>
+      <li>
+        <span class="tl-phase" data-i18n="guia.step4.phase">Passo 4</span>
+        <h3 data-i18n="guia.step4.title">Escolha seu caminho de classe</h3>
+        <p data-i18n-html="guia.step4.text">
+          Ao chegar ao <strong>nível 6</strong>, você escolhe sua primeira classe
+          entre seis caminhos (veja a seção "Classes" abaixo). Essa escolha define
+          seu estilo de jogo — mas é só o começo de uma longa árvore de evoluções.
+        </p>
+      </li>
+      <li>
+        <span class="tl-phase" data-i18n="guia.step5.phase">Passo 5</span>
+        <h3 data-i18n="guia.step5.title">Suba de nível e desbloqueie skills</h3>
+        <p data-i18n-html="guia.step5.text">
+          Complete quests e derrote monstros do seu nível para ganhar EXP. A cada
+          evolução de classe (níveis 16, 31 e além), você desbloqueia novas
+          habilidades e fica visualmente mais imponente. Progressão é
+          <strong>vanilla 1×</strong> — vale a pena.
+        </p>
+      </li>
+      <li>
+        <span class="tl-phase" data-i18n="guia.step6.phase">Passo 6</span>
+        <h3 data-i18n="guia.step6.title">Junte-se à comunidade</h3>
+        <p data-i18n="guia.step6.text">
+          Forme party com outros jogadores, entre numa guilda e participe dos
+          eventos. O GF brilha quando jogado em grupo — e a comunidade do Nexus
+          começa no nosso Discord.
+        </p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- SISTEMA DE Sprites -->
+<section class="section" id="Sprites">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker" data-i18n="guia.sprite.kicker">A mecânica mais importante</span>
+      <h2 data-i18n="guia.sprite.h2">Entendendo os Sprites.</h2>
+      <p class="section-desc" data-i18n="guia.sprite.desc">
+        Se você entender só uma coisa do GF antes de começar, que seja esta. O
+        seu Sprite é o que diferencia Grand Fantasia de qualquer outro MMORPG.
+      </p>
+    </div>
+
+    <div class="pillars">
+      <article class="info-card">
+        <span class="pillar-ico">&#9935;</span>
+        <h3 data-i18n="guia.sprite.c1.title">Coleta de materiais</h3>
+        <p data-i18n="guia.sprite.c1.text">
+          Seu Sprite coleta automaticamente recursos (minérios, ervas, tecidos,
+          essências) enquanto você joga. Esses materiais são a matéria-prima de
+          tudo que ele vai fabricar.
+        </p>
+      </article>
+      <article class="info-card">
+        <span class="pillar-ico">&#9874;</span>
+        <h3 data-i18n="guia.sprite.c2.title">Manufatura de itens</h3>
+        <p data-i18n-html="guia.sprite.c2.text">
+          No GF, você não depende de loja para se equipar: seu Sprite
+          <strong>fabrica</strong> armas, armaduras e acessórios a partir dos
+          materiais coletados. Quanto mais treinado o Sprite, melhor o que ele cria.
+        </p>
+      </article>
+      <article class="info-card">
+        <span class="pillar-ico">&#10022;</span>
+        <h3 data-i18n="guia.sprite.c3.title">Fusão e evolução</h3>
+        <p data-i18n="guia.sprite.c3.text">
+          Sprites podem ser fundidos e evoluídos para ganhar melhores atributos e
+          aparências. Investir no seu Sprite é investir diretamente no seu poder de
+          equipar o personagem.
+        </p>
+      </article>
+    </div>
+
+    <p class="class-note" data-i18n-html="guia.sprite.note">
+      Resumo de novato: <strong>colete tudo, alimente seu Sprite de materiais e
+      deixe-o fabricar.</strong> Não saia vendendo materiais sem saber — eles
+      valem mais nas mãos do seu Sprite do que no NPC.
+    </p>
+  </div>
+</section>
+
+<!-- CLASSES -->
+<section class="section section-alt" id="classes-guia">
+  <div class="wrap content-layout">
+    <article class="content-main">
+      <span class="kicker" data-i18n="guia.classes.kicker">Escolha no nível 6</span>
+      <h2 data-i18n="guia.classes.h2">As seis classes iniciais.</h2>
+      <p data-i18n="guia.classes.p">
+        Ao chegar ao nível 6, o Novato escolhe um entre seis caminhos. Cada um
+        evolui em sub-classes nos níveis 16, 31 e além (até a 5ª evolução no
+        endgame). Não existe escolha "errada" — existe a que combina com você.
+      </p>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <h3 data-i18n="guia.cls.c1.title">&#9876; Lutador</h3>
+          <p data-i18n-html="guia.cls.c1.text">Combate corpo-a-corpo, resistência e dano físico. Evolui para <strong>Guerreiro</strong> e depois <strong>Berserker</strong> ou <strong>Paladino</strong>. Ótimo para quem quer ficar na linha de frente.</p>
+        </article>
+        <article class="feature-card">
+          <h3 data-i18n="guia.cls.c2.title">&#127993; Caçador</h3>
+          <p data-i18n-html="guia.cls.c2.text">Dano à distância com arco e mobilidade. Evolui para <strong>Arqueiro</strong> e depois <strong>Ranger</strong> ou <strong>Assassino</strong>. Para quem gosta de controlar o combate de longe.</p>
+        </article>
+        <article class="feature-card">
+          <h3 data-i18n="guia.cls.c3.title">&#10010; Acólito</h3>
+          <p data-i18n-html="guia.cls.c3.text">Suporte e cura, mantendo o grupo vivo. Evolui para <strong>Sacerdote</strong> e depois <strong>Clérigo</strong> ou <strong>Sábio</strong>. Sempre bem-vindo em qualquer party.</p>
+        </article>
+        <article class="feature-card">
+          <h3 data-i18n="guia.cls.c4.title">&#10022; Feiticeiro</h3>
+          <p data-i18n-html="guia.cls.c4.text">Dano mágico em área e burst. Evolui para <strong>Mago</strong> e depois <strong>Mago Bruxo</strong> ou <strong>Necromante</strong>. Frágil, mas devastador.</p>
+        </article>
+        <article class="feature-card">
+          <h3 data-i18n="guia.cls.c5.title">&#9881; Mecânico</h3>
+          <p data-i18n-html="guia.cls.c5.text">Engenhocas, armas de fogo e gadgets. Evolui para <strong>Engenheiro</strong> e depois <strong>Artífice</strong> ou <strong>Artilheiro</strong>. Estilo versátil e diferente.</p>
+        </article>
+        <article class="feature-card">
+          <h3 data-i18n="guia.cls.c6.title">&#9201; Viajante</h3>
+          <p data-i18n-html="guia.cls.c6.text">Utilidade, velocidade e truques de tempo. Evolui para <strong>Nômade</strong> e depois <strong>Duelista</strong> ou <strong>Relojoeiro</strong>. Para quem gosta de jogar fora do óbvio.</p>
+        </article>
+      </div>
+
+      <p style="margin-top:24px;color:var(--muted);font-size:14px;" data-i18n-html="guia.classes.gallery">
+        Quer ver as classes com arte? Confira a
+        <a class="text-link" href="index.html#classes">galeria de classes &rarr;</a>
+      </p>
+    </article>
+
+    <aside class="content-aside">
+      <div class="side-card">
+        <span class="recruitment-badge" data-i18n="guia.aside.badge">Resumo rápido</span>
+        <h3 data-i18n="guia.aside.title">Evolução de classe</h3>
+        <ul class="side-list">
+          <li data-i18n-html="guia.aside.li1"><strong>Nv 1–5:</strong> Novato</li>
+          <li data-i18n-html="guia.aside.li2"><strong>Nv 6:</strong> 1ª classe (6 caminhos)</li>
+          <li data-i18n-html="guia.aside.li3"><strong>Nv 16:</strong> 2ª evolução</li>
+          <li data-i18n-html="guia.aside.li4"><strong>Nv 31:</strong> 3ª evolução (ramifica)</li>
+          <li data-i18n-html="guia.aside.li5"><strong>Endgame:</strong> 4ª e 5ª evoluções</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- DICAS DE OURO -->
+<section class="section" id="dicas">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker" data-i18n="guia.tips.kicker">Aprenda com os veteranos</span>
+      <h2 data-i18n="guia.tips.h2">Dicas de ouro para novatos.</h2>
+    </div>
+
+    <div class="pillars">
+      <article class="pillar">
+        <span class="pillar-ico">&#9935;</span>
+        <h3 data-i18n="guia.tip1.title">Não venda materiais cedo</h3>
+        <p data-i18n="guia.tip1.text">Minérios, ervas e essências valem mais sendo processados pelo seu Sprite do que vendidos pra NPC. Guarde antes de saber o que faz.</p>
+      </article>
+      <article class="pillar">
+        <span class="pillar-ico">&#128101;</span>
+        <h3 data-i18n="guia.tip2.title">Jogue em grupo</h3>
+        <p data-i18n="guia.tip2.text">EXP e drops em party rendem mais, e dungeons exigem equipe. Chamar pra party é a forma mais rápida de fazer amigos no GF.</p>
+      </article>
+      <article class="pillar">
+        <span class="pillar-ico">&#128221;</span>
+        <h3 data-i18n="guia.tip3.title">Siga a linha de quests</h3>
+        <p data-i18n="guia.tip3.text">As quests principais te levam pelas zonas na ordem certa de nível. Seguir a história é o caminho mais eficiente de subir cedo.</p>
+      </article>
+      <article class="pillar">
+        <span class="pillar-ico">&#10022;</span>
+        <h3 data-i18n="guia.tip4.title">Treine seu Sprite sempre</h3>
+        <p data-i18n="guia.tip4.text">Um Sprite bem treinado fabrica equipamento melhor. Invista nele desde cedo — é o seu "ferreiro" pessoal pelo jogo todo.</p>
+      </article>
+      <article class="pillar">
+        <span class="pillar-ico">&#128176;</span>
+        <h3 data-i18n="guia.tip5.title">Cuidado com a economia</h3>
+        <p data-i18n="guia.tip5.text">O servidor é vanilla, sem pay-to-win. Ouro tem valor real — gaste com consciência e desconfie de trocas "boas demais".</p>
+      </article>
+      <article class="pillar">
+        <span class="pillar-ico">&#128172;</span>
+        <h3 data-i18n="guia.tip6.title">Pergunte na comunidade</h3>
+        <p data-i18n="guia.tip6.text">Travou numa quest, não sabe pra onde ir? O Discord do Nexus tem gente disposta a ajudar. Não sofra sozinho.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- GLOSSÁRIO -->
+<section class="section section-alt" id="glossario">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker" data-i18n="guia.gloss.kicker">Decifrando o jargão</span>
+      <h2 data-i18n="guia.gloss.h2">Glossário rápido do GF.</h2>
+      <p class="section-desc" data-i18n="guia.gloss.desc">Termos que você vai ouvir no chat e o que eles significam.</p>
+    </div>
+
+    <div class="faq-list">
+      <details>
+        <summary data-i18n="guia.gloss.t1.q">Sprite / Elfo / Duende</summary>
+        <p data-i18n="guia.gloss.t1.a">O companheiro mágico que coleta materiais e fabrica equipamentos. A mecânica-assinatura do Grand Fantasia. Diferentes traduções usam nomes diferentes, mas é tudo a mesma coisa.</p>
+      </details>
+      <details>
+        <summary data-i18n="guia.gloss.t2.q">Manufatura / Crafting</summary>
+        <p data-i18n="guia.gloss.t2.a">O processo do seu Sprite transformar materiais coletados em armas, armaduras e acessórios. A principal fonte de equipamento no jogo.</p>
+      </details>
+      <details>
+        <summary data-i18n="guia.gloss.t3.q">Party</summary>
+        <p data-i18n="guia.gloss.t3.a">Grupo de jogadores. Compartilha EXP e drops, e é necessário para dungeons e bosses.</p>
+      </details>
+      <details>
+        <summary data-i18n="guia.gloss.t4.q">Evolução de classe</summary>
+        <p data-i18n="guia.gloss.t4.a">Mudança de classe ao atingir certos níveis (6, 16, 31...), desbloqueando novas habilidades e aparência. É o "subir de cargo" do seu personagem.</p>
+      </details>
+      <details>
+        <summary data-i18n="guia.gloss.t5.q">Vanilla / 1×</summary>
+        <p data-i18n="guia.gloss.t5.a">Taxas de EXP e drop próximas do original, sem multiplicadores inflados. Progressão mais lenta e valorizada — a proposta do Nexus.</p>
+      </details>
+      <details>
+        <summary data-i18n="guia.gloss.t6.q">NP (Nexus Points)</summary>
+        <p data-i18n="guia.gloss.t6.a">A moeda premium do servidor, voltada a conveniência e cosméticos. Sem pay-to-win.</p>
+      </details>
+      <details>
+        <summary data-i18n="guia.gloss.t7.q">Saphael</summary>
+        <p data-i18n="guia.gloss.t7.a">O nome do mundo/continente onde se passa Grand Fantasia. "Saphael renasce aqui" é o nosso lema.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ INICIANTE -->
+<section class="section" id="faq-novato">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker" data-i18n="guia.faq.kicker">Dúvidas comuns de quem está começando</span>
+      <h2 data-i18n="guia.faq.h2">FAQ do novato.</h2>
+    </div>
+
+    <div class="faq-list">
+      <details>
+        <summary data-i18n="guia.faq.q1">Preciso ter jogado antes para entender?</summary>
+        <p data-i18n="guia.faq.a1">Não. O jogo tem um tutorial inicial em Baía Azul que ensina o básico, e este guia cobre o resto. Qualquer pessoa consegue começar do zero.</p>
+      </details>
+      <details>
+        <summary data-i18n="guia.faq.q2">Qual a melhor classe para iniciar?</summary>
+        <p data-i18n="guia.faq.a2">Não existe "melhor" — existe a que combina com seu estilo. Lutador e Caçador são mais simples para aprender; Acólito é sempre desejado em grupos. Veja a seção de classes acima.</p>
+      </details>
+      <details>
+        <summary data-i18n="guia.faq.q3">O jogo é difícil para solo?</summary>
+        <p data-i18n="guia.faq.a3">Dá para evoluir bastante sozinho seguindo quests, mas dungeons e bosses pedem grupo. O GF foi feito para ser social — vale a pena jogar acompanhado.</p>
+      </details>
+      <details>
+        <summary data-i18n="guia.faq.q4">Como consigo equipamento?</summary>
+        <p data-i18n="guia.faq.a4">Principalmente pelo seu Sprite, que fabrica itens a partir de materiais. Também há drops de monstros, recompensas de quest e comércio com outros jogadores.</p>
+      </details>
+      <details>
+        <summary data-i18n="guia.faq.q5">Quando a beta abre?</summary>
+        <p data-i18n="guia.faq.a5">A janela da beta fechada está planejada para Q3 2026. As inscrições ainda não abriram — entre no Discord para ser avisado em primeira mão.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section section-cta" id="ajuda">
+  <div class="wrap cta-box">
+    <div class="cta-copy">
+      <span class="kicker" data-i18n="guia.cta.kicker">Ainda com dúvidas?</span>
+      <h2 data-i18n="guia.cta.h2">A comunidade te ajuda a começar.</h2>
+      <p data-i18n="guia.cta.p">
+        Entre no Discord do GF Nexus para tirar dúvidas, encontrar party,
+        achar uma guilda e acompanhar a abertura da beta. Ninguém começa sozinho.
+      </p>
+    </div>
+    <div class="cta-actions">
+      <a class="btn btn-primary btn-lg" href="https://discord.gg/6YCXdwY2jD" target="_blank" rel="noopener" data-i18n="guia.cta.btn1">Entrar no Discord</a>
+      <a class="btn btn-ghost btn-lg" href="index.html#beta" data-i18n="guia.cta.btn2">Acompanhar a beta</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <span class="brand-text">
+        <img src="assets/img/logo.png" class="brand-logo brand-logo-footer" alt="GF Nexus">
+      </span>
+    </div>
+    <nav class="footer-links">
+      <a href="sobre.html" data-i18n="nav.about">Sobre</a>
+      <a href="guia.html" data-i18n="nav.guides">Guias</a>
+      <a href="index.html#classes">Classes</a>
+      <a href="index.html#roadmap">Roadmap</a>
+      <a href="noticias.html" data-i18n="nav.news">Notícias</a>
+      <a href="recrutamento.html" data-i18n="nav.recruitment">Recrutamento</a>
+      <a href="https://discord.gg/6YCXdwY2jD" target="_blank" rel="noopener">Discord</a>
+    </nav>
+    <p class="footer-legal" data-i18n-html="guia.footer.legal">
+      GF Nexus &middot; servidor privado sem fins lucrativos &middot; 2026<br>
+      Grand Fantasia &copy; X-Legend Entertainment. Projeto de fã, sem afiliação oficial.
+      Guia baseado nas mecânicas clássicas do jogo e nos dados do client desta versão.
+    </p>
+  </div>
+</footer>
+
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GF Nexus — Servidor private classic-like de Grand Fantasia</title>
+  <meta name="description" content="GF Nexus é um servidor private classic-like de Grand Fantasia, com progressão vanilla, comunidade viva, beta em preparação, notícias, recrutamento para staff e suporte planejado para português, inglês, espanhol e francês.">
+
+  <!-- Open Graph / social -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="GF Nexus — Saphael renasce aqui">
+  <meta property="og:description" content="O renascimento de Grand Fantasia. Classic-like, comunidade viva, beta em preparação.">
+  <meta property="og:image" content="https://gf-nexus.com/assets/img/img-01-0c581f46.jpg">
+  <meta property="og:url" content="https://gf-nexus.com">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- Favicons -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <meta name="theme-color" content="#081428">
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18196641188"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-18196641188');
+</script>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top" aria-label="GF Nexus">
+      
+      <span class="brand-text">
+        <img src="assets/img/logo.png" class="brand-logo" />
+      </span>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="sobre.html" data-i18n="nav.about">Sobre</a>
+      <a href="guia.html" data-i18n="nav.guides">Guias</a>
+      <a href="#classes">Classes</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#comunidade" data-i18n="nav.community">Comunidade</a>
+      <a href="noticias.html" data-i18n="nav.news">Notícias</a>
+      <a href="recrutamento.html" data-i18n="nav.recruitment">Recrutamento</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
+    <div class="nav-cta">
+      <button class="lang-toggle" aria-label="Switch language">
+        <span data-lang="pt-BR">PT</span>
+        <span class="lang-sep">|</span>
+        <span data-lang="en">EN</span>
+      </button>
+      <span class="status-pill"><i class="dot"></i> <span data-i18n="nav.status">Beta em preparação</span></span>
+      <a class="btn btn-primary" href="#beta" data-i18n="nav.cta">Entrar na beta</a>
+    </div>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">&#9776;</button>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="wrap hero-content">
+    <span class="eyebrow" data-i18n="idx.hero.eyebrow">Grand Fantasia &middot; Private Server &middot; Comunidade viva</span>
+    <h1 data-i18n-html="idx.hero.h1">O portal para <em>Saphael</em><br>está se abrindo.</h1>
+    <p class="lead" data-i18n="idx.hero.lead">
+      GF Nexus é uma nova casa para quem sente falta da aventura colorida,
+      das parties espontâneas, dos sprites companheiros e daquele clima de MMORPG
+      que faz você entrar só para viver o mundo por mais algumas horas.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary btn-lg" href="#beta" data-i18n="idx.hero.cta1">Garantir meu lugar</a>
+      <a class="btn btn-ghost btn-lg" href="#comunidade" data-i18n="idx.hero.cta2">Entrar no Discord</a>
+    </div>
+    <div class="hero-meta">
+      <div><strong>Q3 2026</strong><span data-i18n="idx.hero.meta1">Janela da beta</span></div>
+      <div><strong>Vanilla 1×</strong><span data-i18n="idx.hero.meta2">Progressão com valor</span></div>
+      <div><strong>Classic-like</strong><span data-i18n="idx.hero.meta3">Como você lembra</span></div>
+    </div>
+  </div>
+  <div class="hero-fade"></div>
+</section>
+
+<!-- ============ PILARES ============ -->
+<section class="section" id="sobre">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker" data-i18n="idx.pillars.kicker">O que é o GF Nexus</span>
+      <h2 data-i18n="idx.pillars.h2">Um renascimento, não uma cópia.</h2>
+      <p class="section-desc" data-i18n="idx.pillars.desc">
+        Reconstruímos a experiência clássica de Grand Fantasia com respeito à
+        progressão original — mas com a estabilidade, a comunidade e o carinho
+        que um servidor feito por quem ama o jogo pode oferecer.
+      </p>
+    </div>
+
+    <div class="pillars">
+      <article class="pillar">
+        <span class="pillar-ico">&#9826;</span>
+        <h3 data-i18n="idx.pillars.p1.title">Vanilla spirit</h3>
+        <p data-i18n="idx.pillars.p1.text">Progressão com significado, economia viva e uma jornada que não perde o valor em dois dias. Cada nível é uma conquista.</p>
+      </article>
+      <article class="pillar">
+        <span class="pillar-ico">&#9733;</span>
+        <h3 data-i18n="idx.pillars.p2.title">Nexus Points (NP)</h3>
+        <p data-i18n="idx.pillars.p2.text">A moeda premium inspirada nos antigos APs, integrada à loja e ao marketplace interno — sem pay-to-win, só conveniência e cosméticos.</p>
+      </article>
+      <article class="pillar">
+        <span class="pillar-ico">&#9788;</span>
+        <h3 data-i18n="idx.pillars.p3.title">Comunidade desde o beta</h3>
+        <p data-i18n="idx.pillars.p3.text">Pesquisas, guildas, sugestões e recrutamento. Ajude a construir o servidor com os jogadores, desde o primeiro dia.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PÁGINAS INSTITUCIONAIS ============ -->
+<section class="section section-alt" id="explorar">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker" data-i18n="idx.explore.kicker">Explore o Nexus</span>
+      <h2 data-i18n="idx.explore.h2">Mais informações sobre o projeto.</h2>
+      <p class="section-desc" data-i18n="idx.explore.desc">
+        Conheça melhor a proposta do servidor, acompanhe as novidades e veja como
+        participar da construção da comunidade desde o início.
+      </p>
+    </div>
+
+    <div class="info-grid">
+      <article class="info-card">
+        <span class="pillar-ico">&#10022;</span>
+        <h3 data-i18n="idx.explore.c1.title">Sobre o GF Nexus</h3>
+        <p data-i18n="idx.explore.c1.text">Entenda nossa visão, filosofia classic-like, progresso planejado e compromisso com a comunidade.</p>
+        <a class="text-link" href="sobre.html" data-i18n="idx.explore.c1.link">Ler sobre o projeto &rarr;</a>
+      </article>
+      <article class="info-card">
+        <span class="pillar-ico">&#9993;</span>
+        <h3 data-i18n="idx.explore.c2.title">Notícias e atualizações</h3>
+        <p data-i18n="idx.explore.c2.text">Acompanhe comunicados, roadmap, etapas de desenvolvimento, recrutamento e preparação da beta.</p>
+        <a class="text-link" href="noticias.html" data-i18n="idx.explore.c2.link">Ver notícias &rarr;</a>
+      </article>
+      <article class="info-card">
+        <span class="pillar-ico">&#9873;</span>
+        <h3 data-i18n="idx.explore.c3.title">Recrutamento Staff</h3>
+        <p data-i18n="idx.explore.c3.text">Veja áreas abertas, responsabilidades, perfil esperado e formulário oficial para candidatura.</p>
+        <a class="text-link" href="recrutamento.html" data-i18n="idx.explore.c3.link">Conhecer recrutamento &rarr;</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLASSES ============ -->
+<section class="section section-alt" id="classes">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker" data-i18n="idx.classes.kicker">Escolha seu caminho</span>
+      <h2 data-i18n="idx.classes.h2">Classes de Saphael.</h2>
+      <p class="section-desc" data-i18n="idx.classes.desc">
+        Das classes-base às evoluções de elite — encontre o estilo que combina
+        com você antes de pisar no mundo.
+      </p>
+    </div>
+
+    <div class="class-grid">
+  <article class="class-card" tabindex="0" data-title="Ranger" data-role="DPS à distância" data-summary="Especialista em combate à distância, o Ranger se destaca pela mobilidade, pressão constante e ataques em área. É uma ótima escolha para quem gosta de manter os inimigos sob controle sem precisar ficar na linha de frente.">
+    <img loading="lazy" src="assets/img/img-11-afe37256.png" alt="Ranger">
+    <div class="class-cap"><strong>Ranger</strong><span>DPS à distância e em área</span></div>
+  </article>
+
+  <article class="class-card" tabindex="0" data-title="Berserker" data-role="Dano corpo-a-corpo" data-summary="O Berserker é uma classe agressiva de curto alcance, focada em força bruta, impacto e dano em área. Ideal para jogadores que gostam de entrar no meio da batalha e eliminar grupos de inimigos com ataques pesados.">
+    <img loading="lazy" src="assets/img/img-07-a4cde8a1.webp" alt="Berserker">
+    <div class="class-cap"><strong>Berserker</strong><span>Dano corpo-a-corpo e em área</span></div>
+  </article>
+
+  <article class="class-card" tabindex="0" data-title="Paladino" data-role="Tank defensivo" data-summary="Resistente e confiável, o Paladino protege aliados, absorve dano e sustenta a linha de frente. É a escolha perfeita para quem gosta de liderar o grupo em dungeons e manter o time seguro nos combates mais difíceis.">
+    <img loading="lazy" src="assets/img/img-16-b978b946.webp" alt="Paladino">
+    <div class="class-cap"><strong>Paladino</strong><span>Tank sagrado e redução</span></div>
+  </article>
+
+  <article class="class-card" tabindex="0" data-title="Clérigo" data-role="Suporte e cura" data-summary="O Clérigo é essencial para a sobrevivência do grupo, oferecendo cura, suporte e estabilidade em batalhas prolongadas. Recomendado para jogadores que gostam de ajudar aliados e manter a equipe sempre de pé.">
+    <img loading="lazy" src="assets/img/img-13-9db674fa.webp" alt="Clérigo">
+    <div class="class-cap"><strong>Clérigo</strong><span>Suporte / Cura</span></div>
+  </article>
+
+  <article class="class-card" tabindex="0" data-title="Feiticeiro" data-role="DPS mágico" data-summary="Mestre do dano mágico e do controle em área, o Feiticeiro domina grupos de inimigos com feitiços poderosos. É ideal para quem prefere causar grande impacto à distância com explosões e controle do campo.">
+    <img loading="lazy" src="assets/img/img-15-511afe3f.webp" alt="Feiticeiro">
+    <div class="class-cap"><strong>Feiticeiro</strong><span>DPS mágico e controle em área</span></div>
+  </article>
+
+  <article class="class-card" tabindex="0" data-title="Assassino" data-role="Burst e evasão" data-summary="Rápido, letal e difícil de acertar, o Assassino brilha com explosões de dano e alta mobilidade. É uma classe indicada para quem gosta de agilidade, precisão e de eliminar inimigos antes que possam reagir.">
+    <img loading="lazy" src="assets/img/img-10-ea82168a.webp" alt="Assassino">
+    <div class="class-cap"><strong>Assassino</strong><span>Burst furtivo e evasão</span></div>
+  </article>
+
+  <article class="class-card" tabindex="0" data-title="Sábio" data-role="Versatilidade" data-summary="O Sábio combina suporte, utilidade e ofensiva em uma proposta equilibrada. É uma classe versátil, excelente para jogadores que gostam de se adaptar à situação e oferecer valor ao grupo de diferentes formas.">
+    <img loading="lazy" src="assets/img/img-12-348a7f10.webp" alt="Sábio">
+    <div class="class-cap"><strong>Sábio</strong><span>Versatilidade, dano e suporte</span></div>
+  </article>
+
+  <article class="class-card" tabindex="0" data-title="Necromante" data-role="Invocação e debuffs" data-summary="Sombrio e estratégico, o Necromante enfraquece inimigos, utiliza magia profana e domina o campo com debuffs e invocações. É ideal para quem gosta de controle, pressão constante e estilo único de jogo.">
+    <img loading="lazy" src="assets/img/img-14-645a605d.webp" alt="Necromante">
+    <div class="class-cap"><strong>Necromante</strong><span>Invocação sombria e debuffs</span></div>
+  </article>
+
+  <article class="class-card" tabindex="0" data-title="Prime" data-role="Dano contínuo" data-summary="O Prime foca em ofensiva constante, ritmo agressivo e pressão sustentada sobre o inimigo. É uma boa escolha para quem gosta de manter dano ativo o tempo todo e dominar a luta pela persistência.">
+    <img loading="lazy" src="assets/img/prime.webp" alt="Prime">
+    <div class="class-cap"><strong>Prime</strong><span>Dano contínuo</span></div>
+  </article>
+
+  <article class="class-card" tabindex="0" data-title="Optimus" data-role="Artilharia pesada" data-summary="Especialista em poder de fogo, o Optimus traz ataques pesados e impacto expressivo em média e longa distância. Perfeito para quem gosta de uma jogabilidade ofensiva com presença forte e estilo imponente.">
+    <img loading="lazy" src="assets/img/optimus.webp" alt="Optimus">
+    <div class="class-cap"><strong>Optimus</strong><span>Artilharia pesada</span></div>
+  </article>
+
+  <article class="class-card" tabindex="0" data-title="Viajante" data-role="Magia e redução" data-summary="O Viajante mistura recursos mágicos, controle e redução, oferecendo uma proposta diferenciada e estratégica. É indicado para jogadores que gostam de utility, domínio do combate e uma classe menos convencional.">
+    <img loading="lazy" src="assets/img/viajante.webp" alt="Viajante" class="class-img">
+    <div class="class-cap"><strong>Viajante</strong><span>Dano mágico, redução</span></div>
+  </article>
+
+  <article class="class-card" tabindex="0" data-title="Samurai" data-role="Crítico e mobilidade" data-summary="Ágil e elegante, o Samurai combina mobilidade, precisão e alto potencial crítico. É uma classe ideal para quem gosta de ritmo ofensivo, movimentação rápida e de causar impacto com golpes certeiros.">
+    <img loading="lazy" src="assets/img/samurai.webp" alt="Samurai" class="class-img">
+    <div class="class-cap"><strong>Samurai</strong><span>Crítico mágico, mobilidade</span></div>
+  </article>
+</div>
+    <p class="class-note" data-i18n="idx.classes.note">E muitas outras — incluindo as evoluções especiais que todo veterano de GF reconhece.</p>
+  </div>
+</section>
+
+<!-- ============ ROADMAP ============ -->
+<section class="section" id="roadmap">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker" data-i18n="idx.roadmap.kicker">A jornada até a abertura</span>
+      <h2 data-i18n="idx.roadmap.h2">Roadmap do Nexus.</h2>
+      <p class="section-desc" data-i18n="idx.roadmap.desc">Transparência total — acompanhe cada etapa rumo ao lançamento.</p>
+    </div>
+
+    <ol class="timeline">
+      <li class="done">
+        <span class="tl-phase" data-i18n="idx.rm.p0.phase">Fase 0 &middot; concluída</span>
+        <h3 data-i18n="idx.rm.p0.title">Fundação técnica</h3>
+        <p data-i18n="idx.rm.p0.text">Servidor mapeado, dados catalogados, pipeline de tradução pt-BR e infraestrutura definida.</p>
+      </li>
+      <li class="active">
+        <span class="tl-phase" data-i18n="idx.rm.p1.phase">Q2 2026 &middot; agora</span>
+        <h3 data-i18n="idx.rm.p1.title">Pesquisa da Comunidade</h3>
+        <p data-i18n="idx.rm.p1.text">Construção da comunidade ouvindo sugestões e ideias. Coleta de feedback, balanceamento e estabilidade.</p>
+      </li>
+      <li>
+        <span class="tl-phase" data-i18n="idx.rm.p2.phase">Q3 2026</span>
+        <h3 data-i18n="idx.rm.p2.title">Beta aberta</h3>
+        <p data-i18n="idx.rm.p2.text">Portas abertas para a comunidade. Eventos, guildas e os primeiros conteúdos de endgame.</p>
+      </li>
+      <li>
+        <span class="tl-phase" data-i18n="idx.rm.p3.phase">Q4 2026</span>
+        <h3 data-i18n="idx.rm.p3.title">Lançamento oficial</h3>
+        <p data-i18n="idx.rm.p3.text">Servidor estável, conteúdo completo até o cap, loja NP cosmética, marketplace integrado.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ RECRUTAMENTO STAFF ============ -->
+<section class="section section-recruitment" id="recrutamento">
+  <div class="wrap recruitment-box">
+    <div class="recruitment-copy">
+      <span class="kicker" data-i18n="idx.rec.kicker">Faça parte da equipe</span>
+      <h2 data-i18n="idx.rec.h2">Recrutamento para Staff.</h2>
+      <p data-i18n="idx.rec.p1">
+        O GF Nexus está crescendo e queremos pessoas responsáveis e apaixonadas
+        por Grand Fantasia para ajudar a construir uma comunidade forte, acolhedora e bem organizada.
+      </p>
+
+      <p data-i18n="idx.rec.p2">
+        Estamos buscando apoio para áreas como suporte aos jogadores, moderação,
+        eventos, testes, tradução, criação de conteúdo, divulgação e apoio técnico.
+      </p>
+
+      <ul class="recruitment-list">
+        <li data-i18n="idx.rec.li1">&#10003; Ajude novos jogadores e fortaleça a comunidade</li>
+        <li data-i18n="idx.rec.li2">&#10003; Participe da organização de eventos e testes</li>
+        <li data-i18n="idx.rec.li3">&#10003; Contribua com tradução, conteúdo e melhorias do servidor</li>
+        <li data-i18n="idx.rec.li4">&#10003; Faça parte da construção do Nexus desde o início</li>
+      </ul>
+    </div>
+
+    <div class="recruitment-card">
+      <span class="recruitment-badge" data-i18n="idx.rec.badge">Vagas abertas</span>
+      <h3 data-i18n="idx.rec.card.title">Inscreva-se para a Staff</h3>
+      <p data-i18n="idx.rec.card.text">
+        Preencha o formulário de recrutamento com atenção. Todas as respostas serão
+        analisadas pela administração, e candidatos selecionados poderão ser chamados
+        para uma conversa ou etapa adicional.
+      </p>
+
+      <a class="btn btn-primary btn-block" href="recrutamento.html" target="_self" rel="noopener" data-i18n="idx.rec.card.btn">
+        Ver detalhes do recrutamento
+      </a>
+
+      <small data-i18n="idx.rec.card.small">
+        O envio do formulário não garante aprovação. Buscamos pessoas com
+        responsabilidade e compromisso com a comunidade.
+      </small>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMUNIDADE ============ -->
+<section class="section section-cta" id="comunidade">
+  <div class="wrap cta-box">
+    <div class="cta-copy">
+      <span class="kicker" data-i18n="idx.community.kicker">Construa com a gente</span>
+      <h2 data-i18n="idx.community.h2">A comunidade já começou.</h2>
+      <p data-i18n="idx.community.p">
+        Entre no Discord para acompanhar o desenvolvimento, participar de pesquisas,
+        encontrar sua guilda e ser avisado em primeira mão quando a beta abrir.
+      </p>
+    </div>
+    <div class="cta-actions">
+      <a class="btn btn-primary btn-lg" href="https://discord.gg/6YCXdwY2jD" target="_blank" rel="noopener" data-i18n="idx.community.cta1">Entrar no Discord</a>
+      <a class="btn btn-ghost btn-lg" href="#beta" data-i18n="idx.community.cta2">Lista de espera</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WAITLIST / BETA ============ -->
+<section class="section section-alt" id="beta">
+  <div class="wrap">
+    <div class="beta-card">
+      <span class="status-pill"><i class="dot"></i> <span data-i18n="idx.beta.status">Beta em preparação</span></span>
+      <h2 data-i18n-html="idx.beta.h2">As inscrições para a beta ainda <em>não</em> abriram.</h2>
+      <p class="beta-card-lead" data-i18n-html="idx.beta.lead">
+        Estamos finalizando os últimos preparativos da beta. Por enquanto
+        não há formulário de inscrição — mas você pode entrar na comunidade agora
+        e ser o <strong>primeiro a saber</strong> quando as vagas abrirem.
+      </p>
+
+      <div class="social-row">
+        <a class="social-btn social-discord" href="https://discord.gg/6YCXdwY2jD" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+          <span><strong data-i18n="idx.beta.d.title">Discord</strong><small data-i18n="idx.beta.d.small">Entre na comunidade</small></span>
+        </a>
+
+        <a class="social-btn" href="https://x.com/gfnexusofc" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          <span><strong data-i18n="idx.beta.x.title">X (Twitter)</strong><small data-i18n="idx.beta.x.small">@gfnexusofc</small></span>
+        </a>
+
+        <a class="social-btn" href="https://instagram.com/gfnexusofc" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163C8.741 0 8.332.014 7.052.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          <span><strong data-i18n="idx.beta.ig.title">Instagram</strong><small data-i18n="idx.beta.ig.small">@gfnexusofc</small></span>
+        </a>
+      </div>
+
+      <p class="beta-note" data-i18n-html="idx.beta.note">
+        &#10003; Quem já estiver na comunidade quando a beta abrir garante
+        <strong>convite prioritário</strong> e o <strong>título de fundador</strong> in-game.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section" id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker" data-i18n="idx.faq.kicker">Perguntas frequentes</span>
+      <h2 data-i18n="idx.faq.h2">O que você precisa saber.</h2>
+    </div>
+
+    <div class="faq-list">
+      <details>
+        <summary data-i18n="idx.faq.q1">O servidor é pago?</summary>
+        <p data-i18n="idx.faq.a1">Não. Jogar é totalmente gratuito. Teremos uma loja com Nexus Points (NP) focada em cosméticos e conveniência — nada de pay-to-win.</p>
+      </details>
+      <details>
+        <summary data-i18n="idx.faq.q2">Quais são as taxas (rates) de EXP e drop?</summary>
+        <p data-i18n="idx.faq.a2">Filosofia vanilla: rates próximos do 1× original. Queremos que a progressão tenha valor e a economia faça sentido a longo prazo.</p>
+      </details>
+      <details>
+        <summary data-i18n="idx.faq.q3">Qual idioma o servidor suporta?</summary>
+        <p data-i18n="idx.faq.a3">Estamos traduzindo o jogo para português brasileiro como prioridade, com inglês, espanhol e francês planejados em seguida.</p>
+      </details>
+      <details>
+        <summary data-i18n="idx.faq.q4">Como eu jogo quando a beta abrir?</summary>
+        <p data-i18n="idx.faq.a4">Você vai baixar o client pelo nosso site ou discord e criar uma conta. As instruções completas serão enviadas para a lista de espera e divulgadas no Discord.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <span class="brand-text">
+        <img src="assets/img/logo.png" class="brand-logo brand-logo-footer" />
+      </span>
+    </div>
+    <nav class="footer-links">
+      <a href="sobre.html" data-i18n="nav.about">Sobre</a>
+      <a href="guia.html" data-i18n="nav.guides">Guias</a>
+      <a href="index.html#classes">Classes</a>
+      <a href="index.html#roadmap">Roadmap</a>
+      <a href="noticias.html" data-i18n="nav.news">Notícias</a>
+      <a href="recrutamento.html" data-i18n="nav.recruitment">Recrutamento</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="https://discord.gg/6YCXdwY2jD" target="_blank" rel="noopener">Discord</a>
+    </nav>
+    <p class="footer-legal" data-i18n-html="footer.legal">
+      GF Nexus &middot; servidor privado sem fins lucrativos &middot; 2026<br>
+      Grand Fantasia &copy; X-Legend Entertainment. Projeto de fã, sem afiliação oficial.
+    </p>
+  </div>
+</footer>
+
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <!-- Home -->
+  <url>
+    <loc>https://gf-nexus.com/</loc>
+    <lastmod>2026-05-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://gf-nexus.com/assets/img/img-01-0c581f46.jpg</image:loc>
+      <image:title>GF Nexus — Saphael renasce aqui</image:title>
+    </image:image>
+  </url>
+
+  <!-- Sobre o projeto -->
+  <url>
+    <loc>https://gf-nexus.com/sobre.html</loc>
+    <lastmod>2026-05-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Guia do novato (alto valor SEO: "como jogar grand fantasia") -->
+  <url>
+    <loc>https://gf-nexus.com/guia.html</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Notícias / atualizações (muda com frequência) -->
+  <url>
+    <loc>https://gf-nexus.com/noticias.html</loc>
+    <lastmod>2026-05-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Recrutamento de staff -->
+  <url>
+    <loc>https://gf-nexus.com/recrutamento.html</loc>
+    <lastmod>2026-05-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>
