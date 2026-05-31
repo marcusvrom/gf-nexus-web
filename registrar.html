@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Criar conta — GF Nexus</title>
+  <meta name="description" content="Crie sua conta no GF Nexus e entre no renascimento de Grand Fantasia. Registro rápido e gratuito.">
+  <meta name="robots" content="index,follow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+  <meta name="theme-color" content="#081428">
+
+  <style>
+    /* ── Registro: card + form (segue o tema escuro do site) ── */
+    .reg-wrap { min-height: calc(100vh - 140px); display: flex; align-items: center; justify-content: center; padding: 48px 16px; }
+    .reg-card {
+      width: 100%; max-width: 440px;
+      background: linear-gradient(180deg, rgba(18,30,54,.92), rgba(10,20,40,.92));
+      border: 1px solid rgba(120,160,220,.18);
+      border-radius: 16px; padding: 36px 32px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+    }
+    .reg-card h1 { font-family: 'Cinzel', serif; font-size: 1.7rem; margin: 0 0 6px; color: #eaf1ff; }
+    .reg-card .sub { color: #9fb2d4; font-size: .94rem; margin: 0 0 26px; }
+    .reg-field { margin-bottom: 18px; }
+    .reg-field label { display: block; font-size: .82rem; font-weight: 600; color: #b9c8e6; margin-bottom: 7px; letter-spacing: .02em; }
+    .reg-field input {
+      width: 100%; box-sizing: border-box; padding: 12px 14px;
+      background: rgba(8,16,32,.85); border: 1px solid rgba(120,160,220,.22);
+      border-radius: 9px; color: #eaf1ff; font-size: .98rem; font-family: inherit;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .reg-field input:focus { outline: none; border-color: #4f8cff; box-shadow: 0 0 0 3px rgba(79,140,255,.18); }
+    .reg-field .hint { font-size: .76rem; color: #7d90b3; margin-top: 6px; }
+    .reg-msg { display: none; padding: 11px 14px; border-radius: 9px; font-size: .9rem; margin-bottom: 18px; }
+    .reg-msg.show { display: block; }
+    .reg-msg.error { background: rgba(220,70,70,.14); border: 1px solid rgba(220,70,70,.4); color: #ffb4b4; }
+    .reg-msg.success { background: rgba(70,200,120,.14); border: 1px solid rgba(70,200,120,.4); color: #b4f0c8; }
+    .reg-foot { text-align: center; margin-top: 18px; font-size: .86rem; color: #8aa0c4; }
+    .reg-foot a { color: #6ea6ff; text-decoration: none; }
+    .btn[disabled] { opacity: .6; cursor: not-allowed; }
+    .reg-success { display: none; text-align: center; }
+    .reg-success.show { display: block; }
+    .reg-success-icon { font-size: 2.6rem; margin-bottom: 4px; }
+    .reg-success h2 { font-family: 'Cinzel', serif; color: #eaf1ff; margin: 0 0 8px; }
+    .reg-success-text { color: #b4f0c8; margin: 0 0 22px; }
+    .discord-btn { background: #5865F2 !important; border-color: #5865F2 !important; }
+    .discord-btn:hover { background: #4752c4 !important; }
+    .reg-success-sub { color: #8aa0c4; font-size: .84rem; margin-top: 14px; }
+  </style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html" aria-label="GF Nexus">
+      <span class="brand-text"><img src="assets/img/logo.png" class="brand-logo" alt="GF Nexus"></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="sobre.html">Sobre</a>
+      <a href="guia.html">Guias</a>
+      <a href="index.html#classes">Classes</a>
+      <a href="index.html#roadmap">Roadmap</a>
+      <a href="index.html#comunidade">Comunidade</a>
+      <a href="noticias.html">Notícias</a>
+      <a href="recrutamento.html">Recrutamento</a>
+      <a href="index.html#faq">FAQ</a>
+    </nav>
+    <div class="nav-cta">
+      <span class="status-pill"><i class="dot"></i> <span>Beta em preparação</span></span>
+      <a class="btn btn-primary" href="registrar.html">Criar conta</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ REGISTRO ============ -->
+<main class="reg-wrap">
+  <div class="reg-card">
+    <h1>Criar sua conta</h1>
+    <p class="sub">Bem-vindo a Saphael. Crie sua conta para entrar no jogo — rápido e gratuito.</p>
+
+    <div class="reg-msg" id="regMsg" role="alert"></div>
+
+    <form id="regForm" autocomplete="off" novalidate>
+      <div class="reg-field">
+        <label for="username">Usuário</label>
+        <input type="text" id="username" name="username" maxlength="20" autocapitalize="off" spellcheck="false" required>
+        <div class="hint">3–20 caracteres: letras minúsculas, números e _</div>
+      </div>
+      <div class="reg-field">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" maxlength="254" autocapitalize="off" spellcheck="false" required>
+        <div class="hint">Usado para recuperação de conta. Não compartilhamos.</div>
+      </div>
+      <div class="reg-field">
+        <label for="password">Senha</label>
+        <input type="password" id="password" name="password" maxlength="32" required>
+        <div class="hint">Mínimo 6 caracteres</div>
+      </div>
+      <div class="reg-field">
+        <label for="password2">Confirmar senha</label>
+        <input type="password" id="password2" name="password2" maxlength="32" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block btn-lg" id="regBtn">Criar conta</button>
+    </form>
+
+    <div class="reg-success" id="regSuccess">
+      <div class="reg-success-icon">🎉</div>
+      <h2 id="regSuccessTitle">Conta criada!</h2>
+      <p class="reg-success-text">Bem-vindo a Saphael! Sua conta já pode entrar no jogo.</p>
+      <a class="btn btn-primary btn-block btn-lg discord-btn" href="https://discord.gg/6YCXdwY2jD" target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-4px;margin-right:8px"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.2.5a18.3 18.3 0 0 1 4.3 1.3 16.6 16.6 0 0 0-14.9 0A18.3 18.3 0 0 1 8.9 3.5L8.6 3a19.8 19.8 0 0 0-4.9 1.4C.6 9 .1 13.5.3 18a20 20 0 0 0 6 3l.5-.7A14 14 0 0 1 5 19.3l.4-.3a14 14 0 0 0 12.2 0l.4.3c-.5.4-1.2.7-2 1l.5.7a20 20 0 0 0 6-3c.3-5.2-.6-9.7-2.6-13.6ZM8.5 15.3c-1 0-1.7-.9-1.7-2s.8-2 1.7-2 1.7.9 1.7 2-.8 2-1.7 2Zm7 0c-1 0-1.7-.9-1.7-2s.8-2 1.7-2 1.7.9 1.7 2-.8 2-1.7 2Z"/></svg>
+        Entrar no Discord
+      </a>
+      <p class="reg-success-sub">Junte-se à comunidade para novidades, suporte e eventos.</p>
+    </div>
+
+    <p class="reg-foot" id="regFoot">Já tem conta? <a href="index.html#beta">Como entrar no jogo</a></p>
+  </div>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <img src="assets/img/logo.png" class="brand-logo brand-logo-footer" alt="GF Nexus">
+    </div>
+    <p class="footer-legal">GF Nexus — projeto de fã, sem fins lucrativos. Grand Fantasia é marca de seus respectivos donos.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var API = "https://api.gf-nexus.com/api/v1/auth/register";
+  var form = document.getElementById("regForm");
+  var btn  = document.getElementById("regBtn");
+  var msgEl = document.getElementById("regMsg");
+
+  function showMsg(text, type) {
+    msgEl.textContent = text;
+    msgEl.className = "reg-msg show " + type;
+  }
+  function clearMsg() { msgEl.className = "reg-msg"; }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    clearMsg();
+    var username = document.getElementById("username").value.trim().toLowerCase();
+    var email = document.getElementById("email").value.trim().toLowerCase();
+    var password = document.getElementById("password").value;
+    var password2 = document.getElementById("password2").value;
+
+    // validações client-side (a API revalida)
+    if (!/^[a-z0-9_]{3,20}$/.test(username)) {
+      return showMsg("Usuário inválido: 3–20 caracteres, letras minúsculas, números e _.", "error");
+    }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || email.length > 254) {
+      return showMsg("E-mail inválido.", "error");
+    }
+    if (password.length < 6 || password.length > 32) {
+      return showMsg("A senha deve ter entre 6 e 32 caracteres.", "error");
+    }
+    if (password !== password2) {
+      return showMsg("As senhas não conferem.", "error");
+    }
+
+    btn.disabled = true;
+    btn.textContent = "Criando...";
+
+    fetch(API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: username, email: email, password: password })
+    })
+      .then(function (res) {
+        return res.json().then(function (data) { return { ok: res.ok, status: res.status, data: data }; });
+      })
+      .then(function (r) {
+        if (r.ok) {
+          clearMsg();
+          form.style.display = "none";
+          document.getElementById("regFoot").style.display = "none";
+          document.getElementById("regSuccessTitle").textContent = "Conta '" + username + "' criada!";
+          document.getElementById("regSuccess").className = "reg-success show";
+        } else if (r.status === 409) {
+          showMsg(r.data && r.data.detail ? r.data.detail : "Usuário ou e-mail já cadastrado.", "error");
+        } else {
+          var detail = r.data && r.data.detail ? (typeof r.data.detail === "string" ? r.data.detail : "Dados inválidos.") : "Não foi possível criar a conta.";
+          showMsg(detail, "error");
+        }
+      })
+      .catch(function () {
+        showMsg("Não foi possível conectar ao servidor. Tente novamente em instantes.", "error");
+      })
+      .finally(function () {
+        btn.disabled = false;
+        btn.textContent = "Criar conta";
+      });
+  });
+})();
+</script>
+</body>
+</html>
