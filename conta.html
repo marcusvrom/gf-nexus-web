@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minha conta — GF Nexus</title>
+  <meta name="robots" content="noindex,nofollow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+  <meta name="theme-color" content="#081428">
+
+  <style>
+    .acc-wrap { max-width: 720px; margin: 0 auto; padding: 48px 16px 64px; }
+    .acc-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+    .acc-head h1 { font-family: 'Cinzel', serif; font-size: 1.7rem; margin: 0; color: #eaf1ff; }
+    .acc-head .who { color: #9fb2d4; font-size: .92rem; margin-top: 4px; }
+    .acc-card {
+      background: linear-gradient(180deg, rgba(18,30,54,.92), rgba(10,20,40,.92));
+      border: 1px solid rgba(120,160,220,.18); border-radius: 16px;
+      padding: 26px 28px; margin-bottom: 20px; box-shadow: 0 16px 44px rgba(0,0,0,.4);
+    }
+    .acc-card h2 { font-family: 'Cinzel', serif; font-size: 1.1rem; color: #eaf1ff; margin: 0 0 14px; }
+    .np-balance { display: flex; align-items: baseline; gap: 10px; }
+    .np-balance .val { font-size: 2.6rem; font-weight: 800; color: #ffd278; font-family: 'Cinzel', serif; }
+    .np-balance .lbl { color: #9fb2d4; font-size: .95rem; }
+    .acc-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .acc-field input {
+      flex: 1; min-width: 200px; box-sizing: border-box; padding: 12px 14px;
+      background: rgba(8,16,32,.85); border: 1px solid rgba(120,160,220,.22);
+      border-radius: 9px; color: #eaf1ff; font-size: .98rem; font-family: inherit; letter-spacing: .04em;
+    }
+    .acc-field input:focus { outline: none; border-color: #4f8cff; box-shadow: 0 0 0 3px rgba(79,140,255,.18); }
+    .reg-msg { display: none; padding: 11px 14px; border-radius: 9px; font-size: .9rem; margin-top: 14px; }
+    .reg-msg.show { display: block; }
+    .reg-msg.error { background: rgba(220,70,70,.14); border: 1px solid rgba(220,70,70,.4); color: #ffb4b4; }
+    .reg-msg.success { background: rgba(70,200,120,.14); border: 1px solid rgba(70,200,120,.4); color: #b4f0c8; }
+    .btn[disabled] { opacity: .6; cursor: not-allowed; }
+    .acc-loading { text-align: center; color: #9fb2d4; padding: 60px 0; }
+  </style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html" aria-label="GF Nexus">
+      <span class="brand-text"><img src="assets/img/logo.png" class="brand-logo" alt="GF Nexus"></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="sobre.html">Sobre</a>
+      <a href="guia.html">Guias</a>
+      <a href="noticias.html">Notícias</a>
+      <a href="nexus-points.html">Comprar NP</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-ghost" href="#" id="logoutBtn">Sair</a>
+    </div>
+  </div>
+</header>
+
+<main class="acc-wrap">
+  <div id="loading" class="acc-loading">Carregando sua conta…</div>
+
+  <div id="content" style="display:none">
+    <div class="acc-head">
+      <div>
+        <h1>Minha conta</h1>
+        <div class="who" id="who"></div>
+      </div>
+      <a class="btn btn-primary" href="nexus-points.html">Comprar Nexus Points</a>
+    </div>
+
+    <div class="acc-card">
+      <h2>Saldo de Nexus Points</h2>
+      <div class="np-balance"><span class="val" id="npBalance">—</span><span class="lbl">NP</span></div>
+    </div>
+
+    <div class="acc-card">
+      <h2>Resgatar voucher</h2>
+      <p class="sub" style="color:#9fb2d4;font-size:.9rem;margin:0 0 14px">Tem um código de NP? Resgate aqui.</p>
+      <form id="voucherForm" class="acc-row" novalidate>
+        <div class="acc-field" style="display:flex;flex:1">
+          <input type="text" id="code" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="24" autocapitalize="characters" spellcheck="false" required>
+        </div>
+        <button type="submit" class="btn btn-primary" id="voucherBtn">Resgatar</button>
+      </form>
+      <div class="reg-msg" id="voucherMsg" role="alert"></div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <img src="assets/img/logo.png" class="brand-logo brand-logo-footer" alt="GF Nexus">
+    </div>
+    <p class="footer-legal">GF Nexus — projeto de fã, sem fins lucrativos. Grand Fantasia é marca de seus respectivos donos.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var BASE = "https://api.gf-nexus.com/api/v1";
+  var token = localStorage.getItem("gfnexus_token");
+  if (!token) { location.replace("login.html"); return; }
+  var AUTH = { "Authorization": "Bearer " + token };
+
+  function logout() {
+    localStorage.removeItem("gfnexus_token");
+    localStorage.removeItem("gfnexus_role");
+    location.replace("login.html");
+  }
+  document.getElementById("logoutBtn").addEventListener("click", function (e) { e.preventDefault(); logout(); });
+
+  function fmt(n) { return Number(n).toLocaleString("pt-BR"); }
+
+  // carrega dados da conta
+  fetch(BASE + "/account/me", { headers: AUTH })
+    .then(function (res) {
+      if (res.status === 401) { logout(); throw new Error("unauth"); }
+      return res.json();
+    })
+    .then(function (d) {
+      document.getElementById("who").textContent = d.username + " · conta #" + d.account_id;
+      document.getElementById("npBalance").textContent = fmt(d.np_balance);
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("content").style.display = "block";
+    })
+    .catch(function () {
+      document.getElementById("loading").textContent = "Não foi possível carregar sua conta. Recarregue a página.";
+    });
+
+  // resgate de voucher
+  var vForm = document.getElementById("voucherForm");
+  var vBtn  = document.getElementById("voucherBtn");
+  var vMsg  = document.getElementById("voucherMsg");
+  vForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    vMsg.className = "reg-msg";
+    var code = document.getElementById("code").value.trim().toUpperCase();
+    if (!code) { vMsg.textContent = "Informe o código."; vMsg.className = "reg-msg show error"; return; }
+
+    vBtn.disabled = true; vBtn.textContent = "Resgatando...";
+    fetch(BASE + "/np/redeem", {
+      method: "POST",
+      headers: Object.assign({ "Content-Type": "application/json" }, AUTH),
+      body: JSON.stringify({ code: code })
+    })
+      .then(function (res) { return res.json().then(function (d) { return { ok: res.ok, status: res.status, data: d }; }); })
+      .then(function (r) {
+        if (r.ok) {
+          vMsg.textContent = "+" + fmt(r.data.np_added) + " NP resgatados!";
+          vMsg.className = "reg-msg show success";
+          document.getElementById("npBalance").textContent = fmt(r.data.np_balance);
+          document.getElementById("code").value = "";
+        } else {
+          vMsg.textContent = (r.data && r.data.detail) ? r.data.detail : "Não foi possível resgatar.";
+          vMsg.className = "reg-msg show error";
+        }
+      })
+      .catch(function () { vMsg.textContent = "Erro de conexão. Tente novamente."; vMsg.className = "reg-msg show error"; })
+      .finally(function () { vBtn.disabled = false; vBtn.textContent = "Resgatar"; });
+  });
+})();
+</script>
+</body>
+</html>

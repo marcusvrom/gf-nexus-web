@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comprar Nexus Points — GF Nexus</title>
+  <meta name="description" content="Adquira Nexus Points via PIX para usar no Item Mall do GF Nexus.">
+  <meta name="robots" content="noindex,follow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+  <meta name="theme-color" content="#081428">
+
+  <style>
+    .np-wrap { max-width: 960px; margin: 0 auto; padding: 48px 16px 64px; }
+    .np-head { text-align: center; margin-bottom: 8px; }
+    .np-head h1 { font-family: 'Cinzel', serif; font-size: 1.9rem; margin: 0 0 8px; color: #eaf1ff; }
+    .np-head p { color: #9fb2d4; font-size: .96rem; margin: 0 0 6px; }
+    .np-rate { color: #ffd278; font-weight: 600; font-size: .9rem; }
+    .np-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-top: 30px; }
+    .np-pkg {
+      position: relative; background: linear-gradient(180deg, rgba(18,30,54,.92), rgba(10,20,40,.92));
+      border: 1px solid rgba(120,160,220,.18); border-radius: 16px; padding: 24px 20px; text-align: center;
+      box-shadow: 0 12px 32px rgba(0,0,0,.35); transition: transform .15s, border-color .15s;
+    }
+    .np-pkg:hover { transform: translateY(-3px); border-color: rgba(120,160,220,.4); }
+    .np-pkg.featured { border-color: #caa24a; box-shadow: 0 12px 38px rgba(202,162,74,.25); }
+    .np-pkg .badge { position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(180deg,#fff0bb,#ffd278); color: #3a2a05; font-size: .68rem; font-weight: 700;
+      padding: 4px 12px; border-radius: 20px; letter-spacing: .04em; }
+    .np-pkg .amt { font-family: 'Cinzel', serif; font-size: 1.9rem; font-weight: 800; color: #ffd278; }
+    .np-pkg .amt small { font-size: .9rem; color: #9fb2d4; font-weight: 600; font-family: 'Inter',sans-serif; }
+    .np-pkg .bonus { color: #b4f0c8; font-size: .8rem; margin-top: 2px; min-height: 16px; }
+    .np-pkg .price { color: #eaf1ff; font-size: 1.15rem; font-weight: 700; margin: 12px 0 16px; }
+    .np-loading, .np-msg { text-align: center; color: #9fb2d4; padding: 30px 0; }
+
+    /* painel de pagamento PIX */
+    .pix-panel { max-width: 460px; margin: 0 auto; background: linear-gradient(180deg, rgba(18,30,54,.95), rgba(10,20,40,.95));
+      border: 1px solid rgba(120,160,220,.2); border-radius: 18px; padding: 30px 28px; text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+    .pix-panel h2 { font-family: 'Cinzel', serif; color: #eaf1ff; margin: 0 0 4px; font-size: 1.3rem; }
+    .pix-panel .pix-sub { color: #9fb2d4; font-size: .9rem; margin: 0 0 18px; }
+    .pix-qr { background: #fff; padding: 12px; border-radius: 12px; display: inline-block; }
+    .pix-qr img { display: block; width: 220px; height: 220px; }
+    .pix-code { margin: 18px 0 8px; }
+    .pix-code textarea { width: 100%; box-sizing: border-box; height: 64px; resize: none; font-size: .76rem;
+      background: rgba(8,16,32,.85); border: 1px solid rgba(120,160,220,.22); border-radius: 9px; color: #c2d0e6; padding: 10px; }
+    .pix-status { margin-top: 16px; font-size: .92rem; color: #9fb2d4; min-height: 22px; }
+    .pix-status.ok { color: #b4f0c8; font-weight: 600; }
+    .pix-status.err { color: #ffb4b4; }
+    .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,210,120,.3);
+      border-top-color: #ffd278; border-radius: 50%; animation: spin .8s linear infinite; vertical-align: -2px; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .pix-foot { margin-top: 18px; }
+    .pix-foot a { color: #6ea6ff; text-decoration: none; font-size: .85rem; }
+  </style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html" aria-label="GF Nexus">
+      <span class="brand-text"><img src="assets/img/logo.png" class="brand-logo" alt="GF Nexus"></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="sobre.html">Sobre</a>
+      <a href="guia.html">Guias</a>
+      <a href="noticias.html">Notícias</a>
+      <a href="conta.html">Minha conta</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-ghost" href="conta.html">Minha conta</a>
+    </div>
+  </div>
+</header>
+
+<main class="np-wrap">
+  <div class="np-head">
+    <h1>Nexus Points</h1>
+    <p>Pague por PIX e receba seus NP na conta automaticamente.</p>
+    <span class="np-rate">150 NP = R$ 1,00</span>
+  </div>
+
+  <!-- view 1: pacotes -->
+  <div id="view-packages">
+    <div id="pkgLoading" class="np-loading">Carregando pacotes…</div>
+    <div id="pkgGrid" class="np-grid" style="display:none"></div>
+  </div>
+
+  <!-- view 2: pagamento PIX -->
+  <div id="view-pix" style="display:none">
+    <div class="pix-panel">
+      <h2 id="pixTitle">Pague com PIX</h2>
+      <p class="pix-sub" id="pixSub"></p>
+      <div class="pix-qr"><img id="pixQrImg" alt="QR Code PIX"></div>
+      <div class="pix-code">
+        <textarea id="pixCode" readonly></textarea>
+        <button class="btn btn-primary btn-block" id="copyBtn" style="margin-top:8px">Copiar código PIX</button>
+      </div>
+      <div class="pix-status" id="pixStatus"><span class="spinner"></span> Aguardando pagamento…</div>
+      <div class="pix-foot">
+        <a id="ticketLink" href="#" target="_blank" rel="noopener">Abrir comprovante no Mercado Pago</a>
+        <span style="color:#46587c;margin:0 8px">·</span>
+        <a href="#" id="backLink">Escolher outro pacote</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <img src="assets/img/logo.png" class="brand-logo brand-logo-footer" alt="GF Nexus">
+    </div>
+    <p class="footer-legal">GF Nexus — projeto de fã, sem fins lucrativos. Grand Fantasia é marca de seus respectivos donos.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var BASE = "https://api.gf-nexus.com/api/v1";
+  var token = localStorage.getItem("gfnexus_token");
+  if (!token) { location.replace("login.html"); return; }
+  var AUTH = { "Authorization": "Bearer " + token };
+
+  var pollTimer = null;
+
+  function fmt(n) { return Number(n).toLocaleString("pt-BR"); }
+  function brl(n) { return Number(n).toLocaleString("pt-BR", { minimumFractionDigits: 2 }); }
+
+  function logoutIf401(res) { if (res.status === 401) { localStorage.removeItem("gfnexus_token"); location.replace("login.html"); throw new Error("unauth"); } return res; }
+
+  // ── carregar pacotes ──
+  fetch(BASE + "/payments/np/packages", { headers: AUTH })
+    .then(logoutIf401)
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var grid = document.getElementById("pkgGrid");
+      (d.packages || []).forEach(function (p) {
+        var card = document.createElement("div");
+        card.className = "np-pkg" + (p.featured ? " featured" : "");
+        card.innerHTML =
+          (p.featured ? '<span class="badge">POPULAR</span>' : '') +
+          '<div class="amt">' + fmt(p.total_np) + ' <small>NP</small></div>' +
+          '<div class="bonus">' + (p.bonus > 0 ? '+' + fmt(p.bonus) + ' bônus' : '') + '</div>' +
+          '<div class="price">R$ ' + brl(p.brl) + '</div>' +
+          '<button class="btn btn-primary btn-block" data-pkg="' + p.id + '">Comprar</button>';
+        card.querySelector("button").addEventListener("click", function () { createOrder(p); });
+        grid.appendChild(card);
+      });
+      document.getElementById("pkgLoading").style.display = "none";
+      grid.style.display = "grid";
+    })
+    .catch(function (e) {
+      if (e.message === "unauth") return;
+      document.getElementById("pkgLoading").textContent = "Não foi possível carregar os pacotes. Recarregue a página.";
+    });
+
+  // ── criar pedido / mostrar PIX ──
+  function createOrder(p) {
+    document.getElementById("pkgLoading").style.display = "none";
+    document.getElementById("view-packages").style.display = "none";
+    document.getElementById("view-pix").style.display = "block";
+    document.getElementById("pixSub").textContent = fmt(p.total_np) + " NP · R$ " + brl(p.brl);
+    var statusEl = document.getElementById("pixStatus");
+    statusEl.className = "pix-status";
+    statusEl.innerHTML = '<span class="spinner"></span> Gerando cobrança PIX…';
+
+    fetch(BASE + "/payments/np/create", {
+      method: "POST",
+      headers: Object.assign({ "Content-Type": "application/json" }, AUTH),
+      body: JSON.stringify({ package_id: p.id })
+    })
+      .then(logoutIf401)
+      .then(function (res) { return res.json().then(function (d) { return { ok: res.ok, data: d }; }); })
+      .then(function (r) {
+        if (!r.ok) {
+          statusEl.className = "pix-status err";
+          statusEl.textContent = (r.data && r.data.detail) ? r.data.detail : "Não foi possível gerar o PIX.";
+          return;
+        }
+        var d = r.data;
+        document.getElementById("pixQrImg").src = "data:image/png;base64," + d.qr_code_base64;
+        document.getElementById("pixCode").value = d.qr_code;
+        document.getElementById("ticketLink").href = d.ticket_url || "#";
+        statusEl.className = "pix-status";
+        statusEl.innerHTML = '<span class="spinner"></span> Aguardando pagamento…';
+        startPolling(d.order_id);
+      })
+      .catch(function (e) {
+        if (e.message === "unauth") return;
+        statusEl.className = "pix-status err";
+        statusEl.textContent = "Erro de conexão ao gerar o PIX.";
+      });
+  }
+
+  // ── polling de status ──
+  function startPolling(orderId) {
+    if (pollTimer) clearInterval(pollTimer);
+    var statusEl = document.getElementById("pixStatus");
+    pollTimer = setInterval(function () {
+      fetch(BASE + "/payments/np/status/" + orderId, { headers: AUTH })
+        .then(logoutIf401)
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (d.status === "credited") {
+            clearInterval(pollTimer);
+            statusEl.className = "pix-status ok";
+            statusEl.innerHTML = "✅ Pagamento confirmado! +" + fmt(d.np_amount) + " NP creditados." +
+              (d.np_balance != null ? " Novo saldo: " + fmt(d.np_balance) + " NP." : "");
+          } else if (d.status === "rejected" || d.status === "cancelled" || d.status === "expired") {
+            clearInterval(pollTimer);
+            statusEl.className = "pix-status err";
+            statusEl.textContent = "O pagamento não foi concluído. Escolha um pacote novamente.";
+          }
+        })
+        .catch(function () { /* silencioso — tenta de novo no próximo tick */ });
+    }, 4000);
+  }
+
+  // ── copiar código ──
+  document.getElementById("copyBtn").addEventListener("click", function () {
+    var ta = document.getElementById("pixCode");
+    ta.select();
+    try { navigator.clipboard.writeText(ta.value); } catch (e) { document.execCommand("copy"); }
+    this.textContent = "Código copiado!";
+    var self = this;
+    setTimeout(function () { self.textContent = "Copiar código PIX"; }, 2000);
+  });
+
+  // ── voltar ──
+  document.getElementById("backLink").addEventListener("click", function (e) {
+    e.preventDefault();
+    if (pollTimer) clearInterval(pollTimer);
+    document.getElementById("view-pix").style.display = "none";
+    document.getElementById("view-packages").style.display = "block";
+  });
+})();
+</script>
+</body>
+</html>
