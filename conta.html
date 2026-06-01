@@ -166,7 +166,7 @@
       return res.json();
     })
     .then(function (d) {
-      document.getElementById("who").textContent = d.username + " · conta #" + d.account_id;
+      document.getElementById("who").textContent = d.username;
       document.getElementById("npBalance").textContent = fmt(d.np_balance);
       document.getElementById("loading").style.display = "none";
       document.getElementById("content").style.display = "block";
