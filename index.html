@@ -91,6 +91,10 @@
       <a class="btn btn-primary btn-lg" href="#beta" data-i18n="idx.hero.cta1">Garantir meu lugar</a>
       <a class="btn btn-ghost btn-lg" href="#comunidade" data-i18n="idx.hero.cta2">Entrar no Discord</a>
     </div>
+    <div id="srvStatus" style="margin-top:18px;display:inline-flex;align-items:center;gap:9px;font-size:13px;color:#9fb2d4;background:rgba(8,16,32,.5);border:1px solid rgba(120,160,220,.2);border-radius:20px;padding:7px 14px">
+      <span id="srvDot" style="width:9px;height:9px;border-radius:50%;background:#5f7298;box-shadow:0 0 8px #5f7298"></span>
+      <span id="srvText">Verificando servidor…</span>
+    </div>
     <div class="hero-meta">
       <div><strong>Q3 2026</strong><span data-i18n="idx.hero.meta1">Janela da beta</span></div>
       <div><strong>Vanilla 1×</strong><span data-i18n="idx.hero.meta2">Progressão com valor</span></div>
@@ -435,5 +439,29 @@
 
 <script src="assets/js/i18n.js"></script>
 <script src="assets/js/main.js"></script>
+<script>
+// status do servidor (hero) — best-effort, não bloqueia nada
+(function () {
+  var dot = document.getElementById("srvDot"), txt = document.getElementById("srvText");
+  if (!dot || !txt) return;
+  fetch("https://api.gf-nexus.com/api/v1/server/status")
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var worlds = d.worlds || [];
+      var anyOnline = worlds.some(function (w) { return w.online; });
+      var players = worlds.reduce(function (a, w) { return a + (w.online_users || 0); }, 0);
+      if (anyOnline) {
+        dot.style.background = "#5fd38a"; dot.style.boxShadow = "0 0 8px #5fd38a";
+        txt.textContent = players > 0
+          ? "Servidor online · " + players.toLocaleString("pt-BR") + " jogadores"
+          : "Servidor online";
+      } else {
+        dot.style.background = "#e08a8a"; dot.style.boxShadow = "0 0 8px #e08a8a";
+        txt.textContent = "Servidor em manutenção";
+      }
+    })
+    .catch(function () { dot.style.background = "#e0b070"; txt.textContent = "Status indisponível"; });
+})();
+</script>
 </body>
 </html>

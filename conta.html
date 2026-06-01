@@ -42,6 +42,19 @@
     .reg-msg.success { background: rgba(70,200,120,.14); border: 1px solid rgba(70,200,120,.4); color: #b4f0c8; }
     .btn[disabled] { opacity: .6; cursor: not-allowed; }
     .acc-loading { text-align: center; color: #9fb2d4; padding: 60px 0; }
+    .muted-line { color: #9fb2d4; font-size: .9rem; margin: 0; }
+    .char-list { display: flex; flex-wrap: wrap; gap: 10px; }
+    .char-chip { background: rgba(8,16,32,.7); border: 1px solid rgba(120,160,220,.2); border-radius: 10px; padding: 10px 14px; min-width: 130px; }
+    .char-chip .nm { color: #eaf1ff; font-weight: 600; display: block; }
+    .char-chip .lv { color: #9fb2d4; font-size: .82rem; }
+    .pw-input { width: 100%; box-sizing: border-box; margin-bottom: 10px; padding: 11px 14px; background: rgba(8,16,32,.85); border: 1px solid rgba(120,160,220,.22); border-radius: 9px; color: #eaf1ff; font-size: .95rem; }
+    .pw-input:focus { outline: none; border-color: #4f8cff; box-shadow: 0 0 0 3px rgba(79,140,255,.18); }
+    .order-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 0; border-bottom: 1px solid #1d2c49; font-size: .9rem; color: #c2d0e6; }
+    .order-row:last-child { border-bottom: 0; }
+    .order-row .st { font-size: .76rem; padding: 2px 9px; border-radius: 10px; white-space: nowrap; }
+    .st-credited { background: rgba(70,200,120,.16); color: #b4f0c8; }
+    .st-pending { background: rgba(255,210,120,.14); color: #ffd278; }
+    .st-other { background: rgba(150,160,180,.14); color: #9fb2d4; }
   </style>
 </head>
 <body>
@@ -96,6 +109,27 @@
         <button type="submit" class="btn btn-primary" id="voucherBtn">Resgatar</button>
       </form>
       <div class="reg-msg" id="voucherMsg" role="alert"></div>
+    </div>
+
+    <div class="acc-card">
+      <h2>Meus personagens</h2>
+      <div id="charList" class="char-list"><p class="muted-line">Carregando…</p></div>
+    </div>
+
+    <div class="acc-card">
+      <h2>Histórico de compras</h2>
+      <div id="orderList"><p class="muted-line">Carregando…</p></div>
+    </div>
+
+    <div class="acc-card">
+      <h2>Trocar senha</h2>
+      <form id="pwForm" novalidate style="max-width:380px">
+        <input type="password" id="curPw" placeholder="Senha atual" maxlength="32" class="pw-input" required>
+        <input type="password" id="newPw" placeholder="Nova senha (mín. 6)" maxlength="32" class="pw-input" required>
+        <input type="password" id="newPw2" placeholder="Confirmar nova senha" maxlength="32" class="pw-input" required>
+        <button type="submit" class="btn btn-primary" id="pwBtn">Salvar nova senha</button>
+      </form>
+      <div class="reg-msg" id="pwMsg" role="alert"></div>
     </div>
   </div>
 </main>
@@ -187,6 +221,80 @@
       })
       .catch(function () { vMsg.textContent = "Erro de conexão. Tente novamente."; vMsg.className = "reg-msg show error"; })
       .finally(function () { vBtn.disabled = false; vBtn.textContent = "Resgatar"; });
+  });
+
+  // ── meus personagens ──
+  fetch(BASE + "/characters", { headers: AUTH })
+    .then(function (r) { return r.json(); })
+    .then(function (list) {
+      var el = document.getElementById("charList");
+      if (!list || !list.length) { el.innerHTML = '<p class="muted-line">Nenhum personagem ainda. Crie um no jogo!</p>'; return; }
+      el.innerHTML = "";
+      list.forEach(function (c) {
+        var chip = document.createElement("div");
+        chip.className = "char-chip";
+        chip.innerHTML = '<span class="nm"></span><span class="lv">Nível ' + (c.level || 1) + '</span>';
+        chip.querySelector(".nm").textContent = c.given_name || "Sem nome";
+        el.appendChild(chip);
+      });
+    })
+    .catch(function () { document.getElementById("charList").innerHTML = '<p class="muted-line">Não foi possível carregar os personagens.</p>'; });
+
+  // ── histórico de compras ──
+  var STATUS_LBL = { credited: "Creditado", pending: "Aguardando", approved: "Aprovado",
+                     rejected: "Recusado", cancelled: "Cancelado", expired: "Expirado" };
+  function brl(n) { return Number(n).toLocaleString("pt-BR", { minimumFractionDigits: 2 }); }
+  fetch(BASE + "/payments/np/orders", { headers: AUTH })
+    .then(function (r) { return r.json(); })
+    .then(function (list) {
+      var el = document.getElementById("orderList");
+      if (!list || !list.length) { el.innerHTML = '<p class="muted-line">Você ainda não fez compras.</p>'; return; }
+      el.innerHTML = "";
+      list.forEach(function (o) {
+        var d = new Date(o.created_at);
+        var cls = o.status === "credited" ? "st-credited" : (o.status === "pending" ? "st-pending" : "st-other");
+        var row = document.createElement("div");
+        row.className = "order-row";
+        row.innerHTML = '<span>' + d.toLocaleDateString("pt-BR") + ' · ' + fmt(o.np_amount) + ' NP · R$ ' + brl(o.amount_brl) +
+                        '</span><span class="st ' + cls + '">' + (STATUS_LBL[o.status] || o.status) + '</span>';
+        el.appendChild(row);
+      });
+    })
+    .catch(function () { document.getElementById("orderList").innerHTML = '<p class="muted-line">Não foi possível carregar o histórico.</p>'; });
+
+  // ── trocar senha ──
+  var pwForm = document.getElementById("pwForm");
+  var pwBtn  = document.getElementById("pwBtn");
+  var pwMsg  = document.getElementById("pwMsg");
+  pwForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    pwMsg.className = "reg-msg";
+    var cur = document.getElementById("curPw").value;
+    var np  = document.getElementById("newPw").value;
+    var np2 = document.getElementById("newPw2").value;
+    if (np.length < 6 || np.length > 32) { pwMsg.textContent = "A nova senha deve ter entre 6 e 32 caracteres."; pwMsg.className = "reg-msg show error"; return; }
+    if (np !== np2) { pwMsg.textContent = "As senhas não conferem."; pwMsg.className = "reg-msg show error"; return; }
+
+    pwBtn.disabled = true; pwBtn.textContent = "Salvando...";
+    fetch(BASE + "/auth/change-password", {
+      method: "POST",
+      headers: Object.assign({ "Content-Type": "application/json" }, AUTH),
+      body: JSON.stringify({ current_password: cur, new_password: np })
+    })
+      .then(function (res) { return res.json().then(function (d) { return { ok: res.ok, data: d }; }); })
+      .then(function (r) {
+        if (r.ok) {
+          pwMsg.textContent = (r.data && r.data.message) || "Senha alterada com sucesso.";
+          pwMsg.className = "reg-msg show success";
+          pwForm.reset();
+        } else {
+          var det = r.data && r.data.detail;
+          pwMsg.textContent = (typeof det === "string") ? det : "Não foi possível alterar a senha.";
+          pwMsg.className = "reg-msg show error";
+        }
+      })
+      .catch(function () { pwMsg.textContent = "Erro de conexão. Tente novamente."; pwMsg.className = "reg-msg show error"; })
+      .finally(function () { pwBtn.disabled = false; pwBtn.textContent = "Salvar nova senha"; });
   });
 })();
 </script>
