@@ -72,6 +72,7 @@
   <div id="loading" class="acc-loading">Carregando sua conta…</div>
 
   <div id="content" style="display:none">
+    <div id="paidBanner" class="reg-msg" style="margin-bottom:18px"></div>
     <div class="acc-head">
       <div>
         <h1>Minha conta</h1>
@@ -139,6 +140,22 @@
     .catch(function () {
       document.getElementById("loading").textContent = "Não foi possível carregar sua conta. Recarregue a página.";
     });
+
+  // retorno do checkout de cartão (back_url ?paid=1): confirma e atualiza o saldo
+  if (/[?&]paid=1/.test(location.search)) {
+    var pb = document.getElementById("paidBanner");
+    pb.className = "reg-msg show success";
+    pb.textContent = "Pagamento recebido! Seu saldo de NP será atualizado em instantes.";
+    var tries = 0;
+    var t = setInterval(function () {
+      tries++;
+      fetch(BASE + "/account/me", { headers: AUTH })
+        .then(function (r) { return r.json(); })
+        .then(function (d) { if (d && d.np_balance != null) document.getElementById("npBalance").textContent = fmt(d.np_balance); })
+        .catch(function () {});
+      if (tries >= 4) clearInterval(t);
+    }, 4000);
+  }
 
   // resgate de voucher
   var vForm = document.getElementById("voucherForm");

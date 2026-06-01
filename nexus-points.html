@@ -87,7 +87,7 @@
 <main class="np-wrap">
   <div class="np-head">
     <h1>Nexus Points</h1>
-    <p>Pague por PIX e receba seus NP na conta automaticamente.</p>
+    <p>Pague por PIX ou cartão de crédito e receba seus NP automaticamente.</p>
     <span class="np-rate">150 NP = R$ 1,00</span>
   </div>
 
@@ -97,7 +97,19 @@
     <div id="pkgGrid" class="np-grid" style="display:none"></div>
   </div>
 
-  <!-- view 2: pagamento PIX -->
+  <!-- view 2: escolha de método -->
+  <div id="view-method" style="display:none">
+    <div class="pix-panel">
+      <h2>Como quer pagar?</h2>
+      <p class="pix-sub" id="methodSub"></p>
+      <button class="btn btn-primary btn-block" id="payPix">PIX — aprovação na hora</button>
+      <button class="btn btn-ghost btn-block" id="payCard" style="margin-top:10px">Cartão de crédito (parcelável)</button>
+      <div class="pix-status" id="methodMsg"></div>
+      <div class="pix-foot" style="margin-top:16px"><a href="#" id="methodBack">‹ Escolher outro pacote</a></div>
+    </div>
+  </div>
+
+  <!-- view 3: pagamento PIX -->
   <div id="view-pix" style="display:none">
     <div class="pix-panel">
       <h2 id="pixTitle">Pague com PIX</h2>
@@ -155,7 +167,7 @@
           '<div class="bonus">' + (p.bonus > 0 ? '+' + fmt(p.bonus) + ' bônus' : '') + '</div>' +
           '<div class="price">R$ ' + brl(p.brl) + '</div>' +
           '<button class="btn btn-primary btn-block" data-pkg="' + p.id + '">Comprar</button>';
-        card.querySelector("button").addEventListener("click", function () { createOrder(p); });
+        card.querySelector("button").addEventListener("click", function () { chooseMethod(p); });
         grid.appendChild(card);
       });
       document.getElementById("pkgLoading").style.display = "none";
@@ -166,10 +178,61 @@
       document.getElementById("pkgLoading").textContent = "Não foi possível carregar os pacotes. Recarregue a página.";
     });
 
-  // ── criar pedido / mostrar PIX ──
-  function createOrder(p) {
-    document.getElementById("pkgLoading").style.display = "none";
+  var current = null;
+
+  function hideAll() {
     document.getElementById("view-packages").style.display = "none";
+    document.getElementById("view-method").style.display = "none";
+    document.getElementById("view-pix").style.display = "none";
+  }
+  function backToPackages() {
+    if (pollTimer) clearInterval(pollTimer);
+    hideAll();
+    document.getElementById("view-packages").style.display = "block";
+  }
+
+  // ── escolha do método de pagamento ──
+  function chooseMethod(p) {
+    current = p;
+    document.getElementById("methodMsg").textContent = "";
+    document.getElementById("methodSub").textContent = fmt(p.total_np) + " NP · R$ " + brl(p.brl);
+    hideAll();
+    document.getElementById("view-method").style.display = "block";
+  }
+
+  // ── cartão: cria preference e redireciona pro Checkout Pro do MP ──
+  function payWithCard() {
+    var btn = document.getElementById("payCard");
+    var msg = document.getElementById("methodMsg");
+    btn.disabled = true; btn.textContent = "Redirecionando…"; msg.textContent = "";
+    fetch(BASE + "/payments/np/checkout", {
+      method: "POST",
+      headers: Object.assign({ "Content-Type": "application/json" }, AUTH),
+      body: JSON.stringify({ package_id: current.id })
+    })
+      .then(logoutIf401)
+      .then(function (res) { return res.json().then(function (d) { return { ok: res.ok, data: d }; }); })
+      .then(function (r) {
+        if (r.ok && r.data.init_point) { window.location.href = r.data.init_point; return; }
+        msg.className = "pix-status err";
+        msg.textContent = (r.data && r.data.detail) ? r.data.detail : "Não foi possível iniciar o pagamento com cartão.";
+        btn.disabled = false; btn.textContent = "Cartão de crédito (parcelável)";
+      })
+      .catch(function (e) {
+        if (e.message === "unauth") return;
+        msg.className = "pix-status err";
+        msg.textContent = "Erro de conexão. Tente novamente.";
+        btn.disabled = false; btn.textContent = "Cartão de crédito (parcelável)";
+      });
+  }
+
+  document.getElementById("payPix").addEventListener("click", function () { startPix(current); });
+  document.getElementById("payCard").addEventListener("click", payWithCard);
+  document.getElementById("methodBack").addEventListener("click", function (e) { e.preventDefault(); backToPackages(); });
+
+  // ── PIX: cria cobrança e mostra QR ──
+  function startPix(p) {
+    hideAll();
     document.getElementById("view-pix").style.display = "block";
     document.getElementById("pixSub").textContent = fmt(p.total_np) + " NP · R$ " + brl(p.brl);
     var statusEl = document.getElementById("pixStatus");
