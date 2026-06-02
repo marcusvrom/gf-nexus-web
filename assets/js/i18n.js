@@ -13,6 +13,7 @@
     'nav.community':  'Community',
     'nav.news':       'News',
     'nav.recruitment':'Recruitment',
+    'nav.terms':      'Terms',
     'nav.status':     'Beta in preparation',
     'nav.cta':        'Join the beta',
 
