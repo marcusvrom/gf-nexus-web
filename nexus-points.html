@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Comprar Nexus Points — GF Nexus</title>
+  <title>Adquirir Nexus Points — GF Nexus</title>
   <meta name="description" content="Adquira Nexus Points via PIX para usar no Item Mall do GF Nexus.">
   <meta name="robots" content="noindex,follow">
 
@@ -134,7 +134,7 @@
     <div class="footer-brand">
       <img src="assets/img/logo.png" class="brand-logo brand-logo-footer" alt="GF Nexus">
     </div>
-    <p class="footer-legal">GF Nexus — projeto de fã, sem fins lucrativos. Grand Fantasia é marca de seus respectivos donos.</p>
+    <p class="footer-legal">GF Nexus — projeto de fã. Grand Fantasia é marca de seus respectivos donos.</p>
   </div>
 </footer>
 
@@ -166,7 +166,7 @@
           '<div class="amt">' + fmt(p.total_np) + ' <small>NP</small></div>' +
           '<div class="bonus">' + (p.bonus > 0 ? '+' + fmt(p.bonus) + ' bônus' : '') + '</div>' +
           '<div class="price">R$ ' + brl(p.brl) + '</div>' +
-          '<button class="btn btn-primary btn-block" data-pkg="' + p.id + '">Comprar</button>';
+          '<button class="btn btn-primary btn-block" data-pkg="' + p.id + '">Adquirir</button>';
         card.querySelector("button").addEventListener("click", function () { chooseMethod(p); });
         grid.appendChild(card);
       });
