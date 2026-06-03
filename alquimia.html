@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Montar Alquimia — GF Nexus</title>
+  <meta name="description" content="Monte uma sugestão de alquimia com os itens do GF Nexus e envie para a comunidade.">
+  <meta name="robots" content="noindex,follow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css?v=2">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <meta name="theme-color" content="#081428">
+
+  <style>
+    .al-wrap { max-width: 920px; margin: 0 auto; padding: 40px 16px 64px; }
+    .al-head { text-align: center; margin-bottom: 24px; }
+    .al-head h1 { font-family: 'Cinzel', serif; font-size: 1.9rem; margin: 0 0 6px; color: #eaf1ff; }
+    .al-head p { color: #9fb2d4; font-size: .95rem; margin: 0; max-width: 620px; margin: 0 auto; }
+
+    /* cartão da receita (é o que vira a imagem) */
+    .recipe { background: linear-gradient(180deg, #131e36, #0b1426); border: 1px solid rgba(120,160,220,.22);
+      border-radius: 16px; padding: 22px 22px 18px; box-shadow: 0 16px 44px rgba(0,0,0,.4); }
+    .recipe-title { font-family: 'Cinzel', serif; color: #ffd278; font-size: 1.1rem; text-align: center; margin: 0 0 4px; }
+    .recipe-sub { text-align: center; color: #8aa0c4; font-size: .8rem; margin: 0 0 18px; }
+    .slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
+    .slot { position: relative; background: rgba(8,16,32,.6); border: 1px dashed rgba(120,160,220,.3); border-radius: 12px;
+      min-height: 112px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+      padding: 8px 6px; cursor: pointer; text-align: center; transition: border-color .12s, background .12s; }
+    .slot:hover { border-color: #4f8cff; background: rgba(16,28,52,.7); }
+    .slot.filled { border-style: solid; border-color: rgba(120,160,220,.4); cursor: default; }
+    .slot .plus { color: #5f7298; font-size: 1.6rem; line-height: 1; }
+    .slot .hint { color: #6e84aa; font-size: .72rem; }
+    .slot img { width: 46px; height: 46px; image-rendering: pixelated; object-fit: contain; }
+    .slot .nm { color: #eaf1ff; font-size: .74rem; font-weight: 600; line-height: 1.15;
+      overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    .slot .iid { color: #7e93b8; font-size: .66rem; font-family: ui-monospace, monospace; }
+    .slot .qty { width: 52px; box-sizing: border-box; text-align: center; font-size: .76rem; padding: 3px;
+      background: rgba(8,16,32,.85); border: 1px solid rgba(120,160,220,.25); border-radius: 6px; color: #eaf1ff; }
+    .slot .rm { position: absolute; top: 4px; right: 6px; color: #e08a8a; font-size: .9rem; cursor: pointer; line-height: 1; }
+    .recipe-arrow { text-align: center; color: #6e84aa; font-size: 1.4rem; margin: 14px 0 6px; }
+    .recipe-label { color: #9fb2d4; font-size: .8rem; font-weight: 600; letter-spacing: .03em; margin: 4px 0 8px; text-transform: uppercase; }
+    .result-row { display: flex; justify-content: center; }
+    .result-row .slot { width: 150px; min-height: 120px; }
+
+    .al-controls { margin-top: 22px; display: grid; gap: 14px; }
+    .al-field label { display: block; font-size: .82rem; font-weight: 600; color: #b9c8e6; margin-bottom: 6px; }
+    .al-field input, .al-field select { width: 100%; box-sizing: border-box; padding: 11px 13px;
+      background: rgba(8,16,32,.85); border: 1px solid rgba(120,160,220,.22); border-radius: 9px; color: #eaf1ff; font: inherit; }
+    .al-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .al-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
+    .al-msg { display: none; padding: 11px 14px; border-radius: 9px; font-size: .9rem; }
+    .al-msg.show { display: block; }
+    .al-msg.ok { background: rgba(95,211,138,.14); border: 1px solid rgba(95,211,138,.4); color: #b4f0c8; }
+    .al-msg.err { background: rgba(220,70,70,.14); border: 1px solid rgba(220,70,70,.4); color: #ffb4b4; }
+
+    /* modal picker */
+    .pk-overlay { position: fixed; inset: 0; background: rgba(4,8,18,.82); display: none; z-index: 50;
+      align-items: flex-start; justify-content: center; padding: 40px 16px; overflow: auto; }
+    .pk-overlay.show { display: flex; }
+    .pk-box { width: 100%; max-width: 720px; background: #0d1626; border: 1px solid rgba(120,160,220,.25);
+      border-radius: 16px; padding: 18px; }
+    .pk-box h3 { font-family: 'Cinzel', serif; color: #eaf1ff; margin: 0 0 12px; font-size: 1.1rem; }
+    .pk-search { width: 100%; box-sizing: border-box; padding: 12px 14px; margin-bottom: 6px;
+      background: rgba(8,16,32,.85); border: 1px solid rgba(120,160,220,.22); border-radius: 10px; color: #eaf1ff; font: inherit; }
+    .pk-count { color: #8aa0c4; font-size: .78rem; margin: 0 0 10px; }
+    .pk-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; max-height: 56vh; overflow: auto; }
+    .pk-item { display: flex; gap: 9px; align-items: center; padding: 8px 10px; background: rgba(18,30,54,.7);
+      border: 1px solid rgba(120,160,220,.14); border-radius: 9px; cursor: pointer; }
+    .pk-item:hover { border-color: #4f8cff; }
+    .pk-item img { width: 36px; height: 36px; flex: none; image-rendering: pixelated; object-fit: contain; }
+    .pk-item .nm { color: #eaf1ff; font-size: .82rem; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .pk-item .iid { color: #7e93b8; font-size: .7rem; }
+    .pk-close { float: right; color: #9fb2d4; cursor: pointer; font-size: 1.1rem; }
+  </style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html" aria-label="GF Nexus"><span class="brand-text"><img src="assets/img/logo.png" class="brand-logo" alt="GF Nexus"></span></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="database.html">Database</a>
+      <a href="alquimia.html">Alquimia</a>
+      <a href="noticias.html">Notícias</a>
+      <a href="conta.html">Minha conta</a>
+    </nav>
+    <div class="nav-cta"><a class="btn btn-ghost" href="conta.html">Minha conta</a></div>
+  </div>
+</header>
+
+<main class="al-wrap">
+  <div class="al-head">
+    <h1>Montar Alquimia</h1>
+    <p>Monte sua sugestão de receita: escolha os materiais e o item resultado. Sua sugestão vai pro
+       canal da comunidade no Discord pra a equipe avaliar.</p>
+  </div>
+
+  <!-- cartão capturável -->
+  <div class="recipe" id="recipeCard">
+    <h2 class="recipe-title" id="rcTitle">Sugestão de Alquimia</h2>
+    <p class="recipe-sub" id="rcSub">GF Nexus</p>
+    <div class="recipe-label">Materiais</div>
+    <div class="slots" id="materials"></div>
+    <div class="recipe-arrow">▼</div>
+    <div class="recipe-label">Resultado</div>
+    <div class="result-row"><div id="resultSlot"></div></div>
+  </div>
+
+  <div class="al-controls">
+    <div class="al-row2">
+      <div class="al-field">
+        <label for="ctype">Tipo de alquimia</label>
+        <select id="ctype">
+          <option value="Fortificar">Fortificar (Strong)</option>
+          <option value="Projetos">Projetos (Combine)</option>
+          <option value="Síntese de Sprite">Síntese de Sprite</option>
+          <option value="Outro">Outro / Não sei</option>
+        </select>
+      </div>
+      <div class="al-field">
+        <label for="pname">Seu nome (in-game ou Discord)</label>
+        <input type="text" id="pname" maxlength="40" placeholder="Como te chamar na sugestão">
+      </div>
+    </div>
+    <div class="al-field">
+      <label for="note">Observação (opcional)</label>
+      <input type="text" id="note" maxlength="160" placeholder="Ex.: receita pra craftar X, ideia de balanceamento…">
+    </div>
+    <div class="al-msg" id="msg" role="alert"></div>
+    <div class="al-actions">
+      <button class="btn btn-primary" id="send">Enviar sugestão pro Discord</button>
+      <button class="btn btn-ghost" id="copy">Copiar receita (texto)</button>
+      <button class="btn btn-ghost" id="reset">Limpar</button>
+    </div>
+  </div>
+</main>
+
+<!-- modal picker -->
+<div class="pk-overlay" id="pk">
+  <div class="pk-box">
+    <span class="pk-close" id="pkClose">✕</span>
+    <h3 id="pkTitle">Escolher item</h3>
+    <input class="pk-search" id="pkSearch" placeholder="Buscar por nome ou ID…" autocomplete="off">
+    <p class="pk-count" id="pkCount"></p>
+    <div class="pk-grid" id="pkGrid"></div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand"><img src="assets/img/logo.png" class="brand-logo brand-logo-footer" alt="GF Nexus"></div>
+    <p class="footer-legal"><a href="termos.html" style="color:#8aa0c4">Termos de Uso e Compras</a> &middot; GF Nexus — projeto de fã.</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="assets/js/items-db.js?v=1"></script>
+<script src="assets/js/alquimia.js?v=1"></script>
+</body>
+</html>
