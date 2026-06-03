@@ -2,7 +2,7 @@
    items.json: [{ id, n (nome pt-BR), ic (icon_ref), t (type_code) }] */
 window.GFItems = (function () {
   var ICON_BASE = "https://api.gf-nexus.com/updates/icons/";
-  var DATA_URL = "assets/data/items.json?v=1";
+  var DATA_URL = "assets/data/items.json?v=2";
   var items = null;      // array original
   var byId = {};         // id -> item
   var norm = [];         // busca normalizada paralela: { item, s (nome lower sem acento), id }
@@ -35,7 +35,7 @@ window.GFItems = (function () {
 
   // busca: nome contém (sem acento) OU id começa com. "" = todos. Limita a `cap` resultados.
   function search(q, cap) {
-    cap = cap || 4000;
+    cap = cap || 100000;   // wiki navega tudo (render é paginado); picker passa 300
     q = stripAccents((q || "").trim().toLowerCase());
     if (!q) return items.slice(0, cap);
     var out = [], isNum = /^\d+$/.test(q);
