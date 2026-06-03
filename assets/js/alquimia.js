@@ -1,73 +1,120 @@
-/* alquimia.js — montador de sugestão de alquimia (GF Nexus). Requer GFItems + html2canvas. */
+/* alquimia.js — montador de sugestão da Alquimia Mágica (loteria diária 5 rounds × 8 slots).
+   Réplica do modelo do GF Studio (renderAlchemy). Requer GFItems + html2canvas. */
 (function () {
   var API = "https://api.gf-nexus.com/api/v1";
   var token = localStorage.getItem("gfnexus_token");
   if (!token) { location.replace("login.html"); return; }
   var AUTH = { "Authorization": "Bearer " + token };
 
-  var MAX_MAT = 6;
-  var materials = [];     // [{ item, qty }]
-  var result = null;      // { item, qty }
-  var pickMode = null;    // 'material' | 'result'
+  var ROUNDS = 5, SLOTS = 8;
+  var DAYS = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"];
+  var TYPES = { MAGIC: "Mágica", NORMAL: "Normal" };
+  var cur = { type: "MAGIC", day: 1 };
+  var store = {};                 // "TYPE|day" -> { "r_i": {item,qty,prob,jack} }
+  var selected = null;            // {round, index}
+  var pickCtx = null;             // {round, index, mode}
 
-  var matEl = document.getElementById("materials");
-  var resEl = document.getElementById("resultSlot");
+  var gridEl = document.getElementById("alcGrid");
+  var propEl = document.getElementById("prop");
   var msgEl = document.getElementById("msg");
   var pk = document.getElementById("pk"), pkGrid = document.getElementById("pkGrid");
   var pkSearch = document.getElementById("pkSearch"), pkCount = document.getElementById("pkCount");
 
-  function emptySlot(label) {
-    var d = document.createElement("div"); d.className = "slot";
-    d.innerHTML = '<span class="plus">+</span><span class="hint">' + label + '</span>';
-    return d;
-  }
-  function filledSlot(entry, onQty, onRemove) {
-    var it = entry.item;
-    var d = document.createElement("div"); d.className = "slot filled";
-    d.innerHTML =
-      '<span class="rm" title="Remover">✕</span>' +
-      (it.ic ? '<img src="' + GFItems.iconUrl(it.ic) + '" alt="" onerror="this.style.visibility=\'hidden\'">' : '') +
-      '<span class="nm">' + GFItems.esc(it.n) + '</span>' +
-      '<span class="iid">#' + it.id + '</span>' +
-      '<input class="qty" type="number" min="1" max="9999" value="' + entry.qty + '">';
-    d.querySelector(".rm").addEventListener("click", function (e) { e.stopPropagation(); onRemove(); });
-    d.querySelector(".qty").addEventListener("click", function (e) { e.stopPropagation(); });
-    d.querySelector(".qty").addEventListener("input", function () {
-      entry.qty = Math.max(1, parseInt(this.value || "1", 10)); onQty();
+  function key() { return cur.type + "|" + cur.day; }
+  function grid() { return store[key()] || (store[key()] = {}); }
+  function dayLabel() { return DAYS[cur.day - 1]; }
+  function typeLabel() { return TYPES[cur.type]; }
+
+  // ── tabs ──
+  function renderTabs() {
+    var dt = document.getElementById("dayTabs"); dt.innerHTML = "";
+    DAYS.forEach(function (d, i) {
+      var t = document.createElement("span");
+      t.className = "al-tab" + (cur.day === i + 1 ? " active" : "");
+      t.textContent = d; t.addEventListener("click", function () { cur.day = i + 1; selected = null; refresh(); });
+      dt.appendChild(t);
     });
-    return d;
+    document.querySelectorAll("#typeTabs .al-tab").forEach(function (t) {
+      t.classList.toggle("active", t.dataset.type === cur.type);
+      t.onclick = function () { cur.type = t.dataset.type; selected = null; refresh(); };
+    });
+    document.getElementById("alcTitle").textContent = "Alquimia " + typeLabel();
+    document.getElementById("alcSub").textContent = dayLabel() + " · GF Nexus";
   }
 
-  function render() {
-    matEl.innerHTML = "";
-    materials.forEach(function (m, i) {
-      matEl.appendChild(filledSlot(m, function () {}, function () { materials.splice(i, 1); render(); }));
-    });
-    if (materials.length < MAX_MAT) {
-      var add = emptySlot("Adicionar material");
-      add.addEventListener("click", function () { openPicker("material"); });
-      matEl.appendChild(add);
-    }
-    resEl.innerHTML = "";
-    if (result) {
-      resEl.appendChild(filledSlot(result, function () {}, function () { result = null; render(); }));
-    } else {
-      var r = emptySlot("Item resultado");
-      r.addEventListener("click", function () { openPicker("result"); });
-      resEl.appendChild(r);
-    }
+  // ── grid ──
+  function roundTotal(r) {
+    var g = grid(), s = 0;
+    for (var i = 1; i <= SLOTS; i++) { var d = g[r + "_" + i]; if (d) s += parseFloat(d.prob || 0); }
+    return s;
   }
+  function renderGrid() {
+    var g = grid(), html = "";
+    for (var r = 1; r <= ROUNDS; r++) {
+      html += '<div class="alc-round"><div class="alc-rlabel">Round ' + r +
+        '<small>' + roundTotal(r).toFixed(2) + '%</small></div>';
+      for (var i = 1; i <= SLOTS; i++) {
+        var d = g[r + "_" + i];
+        var sel = selected && selected.round === r && selected.index === i;
+        if (d) {
+          html += '<div class="alc-slot' + (sel ? ' sel' : '') + '" data-r="' + r + '" data-i="' + i + '">' +
+            (d.item.ic ? '<img src="' + GFItems.iconUrl(d.item.ic) + '" alt="" onerror="this.style.visibility=\'hidden\'">' : '') +
+            (d.jack == 1 ? '<span class="jk">★</span>' : '') +
+            (parseFloat(d.prob) > 0 ? '<span class="pb">' + (+d.prob) + '%</span>' : '') +
+            (d.qty > 1 ? '<span class="amt">' + d.qty + '</span>' : '') + '</div>';
+        } else {
+          html += '<div class="alc-slot empty" data-r="' + r + '" data-i="' + i + '">+</div>';
+        }
+      }
+      html += '</div>';
+    }
+    gridEl.innerHTML = html;
+    gridEl.querySelectorAll(".alc-slot").forEach(function (el) {
+      var r = +el.dataset.r, i = +el.dataset.i;
+      el.addEventListener("click", function () {
+        if (grid()[r + "_" + i]) selectSlot(r, i); else openPicker(r, i, "new");
+      });
+    });
+  }
+
+  function selectSlot(r, i) {
+    selected = { round: r, index: i };
+    var d = grid()[r + "_" + i];
+    document.getElementById("pName").textContent = d.item.n;
+    document.getElementById("pId").textContent = "#" + d.item.id + " · Round " + r + " / Slot " + i;
+    document.getElementById("pAmt").value = d.qty;
+    document.getElementById("pProb").value = d.prob;
+    document.getElementById("pJack").value = d.jack;
+    propEl.classList.add("show");
+    renderGrid();
+  }
+  function hideProp() { propEl.classList.remove("show"); selected = null; }
+
+  // prop inputs
+  function updSel(field, val) {
+    if (!selected) return;
+    var d = grid()[selected.round + "_" + selected.index]; if (!d) return;
+    d[field] = val; renderGrid();
+  }
+  document.getElementById("pAmt").addEventListener("input", function () { updSel("qty", Math.max(1, parseInt(this.value || "1", 10))); });
+  document.getElementById("pProb").addEventListener("input", function () { updSel("prob", Math.max(0, Math.min(100, parseFloat(this.value || "0")))); });
+  document.getElementById("pJack").addEventListener("change", function () { updSel("jack", this.value); });
+  document.getElementById("pRemove").addEventListener("click", function () {
+    if (!selected) return; delete grid()[selected.round + "_" + selected.index]; hideProp(); renderGrid();
+  });
+  document.getElementById("pSwap").addEventListener("click", function () {
+    if (selected) openPicker(selected.round, selected.index, "swap");
+  });
 
   // ── picker ──
-  function openPicker(mode) {
-    pickMode = mode;
-    document.getElementById("pkTitle").textContent = mode === "result" ? "Escolher item resultado" : "Escolher material";
+  function openPicker(r, i, mode) {
+    pickCtx = { round: r, index: i, mode: mode };
     pk.classList.add("show"); pkSearch.value = ""; pkSearch.focus(); renderPick("");
   }
   function closePicker() { pk.classList.remove("show"); }
   function renderPick(q) {
     var res = GFItems.search(q, 300);
-    pkCount.textContent = res.length + (res.length >= 300 ? "+ resultados — refine a busca" : " resultado(s)");
+    pkCount.textContent = res.length + (res.length >= 300 ? "+ — refine a busca" : " resultado(s)");
     var frag = document.createDocumentFragment();
     res.forEach(function (it) {
       var d = document.createElement("div"); d.className = "pk-item";
@@ -79,83 +126,89 @@
     pkGrid.innerHTML = ""; pkGrid.appendChild(frag);
   }
   function pick(it) {
-    if (pickMode === "result") result = { item: it, qty: 1 };
-    else if (materials.length < MAX_MAT) materials.push({ item: it, qty: 1 });
-    closePicker(); render();
+    var g = grid(), k = pickCtx.round + "_" + pickCtx.index;
+    if (pickCtx.mode === "swap" && g[k]) g[k].item = it;
+    else g[k] = { item: it, qty: 1, prob: 0, jack: 0 };
+    closePicker(); selectSlot(pickCtx.round, pickCtx.index);
   }
   var pt; pkSearch.addEventListener("input", function () { clearTimeout(pt); pt = setTimeout(function () { renderPick(pkSearch.value); }, 150); });
   document.getElementById("pkClose").addEventListener("click", closePicker);
   pk.addEventListener("click", function (e) { if (e.target === pk) closePicker(); });
 
-  // ── helpers de mensagem / texto ──
-  function showMsg(text, type) { msgEl.textContent = text; msgEl.className = "al-msg show " + type; }
-  function recipeText() {
-    var t = document.getElementById("ctype").value;
-    var name = document.getElementById("pname").value.trim() || "Anônimo";
+  // ── coletar / validar / texto ──
+  function collect() {
+    var g = grid(), out = [];
+    for (var r = 1; r <= ROUNDS; r++) for (var i = 1; i <= SLOTS; i++) {
+      var d = g[r + "_" + i];
+      if (d) out.push({ round: r, index: i, id: d.item.id, n: d.item.n, qty: d.qty, prob: +d.prob || 0, jack: +d.jack || 0 });
+    }
+    return out;
+  }
+  function showMsg(t, type) { msgEl.textContent = t; msgEl.className = "al-msg show " + type; }
+  function recipeText(slots) {
+    var lines = ["**Alquimia " + typeLabel() + " — " + dayLabel() + "**",
+      "Por: " + (document.getElementById("pname2").value.trim() || "Anônimo"), ""];
+    for (var r = 1; r <= ROUNDS; r++) {
+      var rs = slots.filter(function (s) { return s.round === r; });
+      if (!rs.length) continue;
+      lines.push("**Round " + r + "** (" + roundTotal(r).toFixed(2) + "%)");
+      rs.forEach(function (s) { lines.push("• " + s.n + " (#" + s.id + ") x" + s.qty + " — " + s.prob + "%" + (s.jack ? " ⭐Jackpot" : "")); });
+    }
     var note = document.getElementById("note").value.trim();
-    var lines = ["**Sugestão de Alquimia — " + t + "**", "Por: " + name, "", "**Materiais:**"];
-    materials.forEach(function (m) { lines.push("• " + m.item.n + " (#" + m.item.id + ") x" + m.qty); });
-    lines.push("", "**Resultado:** " + (result ? result.item.n + " (#" + result.item.id + ") x" + result.qty : "—"));
     if (note) lines.push("", "Obs.: " + note);
     return lines.join("\n");
-  }
-  function validate() {
-    if (!materials.length) { showMsg("Adicione pelo menos 1 material.", "err"); return false; }
-    if (!result) { showMsg("Escolha o item resultado.", "err"); return false; }
-    return true;
   }
 
   // ── ações ──
   document.getElementById("copy").addEventListener("click", function () {
-    if (!validate()) return;
-    var txt = recipeText();
+    var slots = collect();
+    if (!slots.length) return showMsg("Adicione pelo menos 1 item ao grid.", "err");
+    var txt = recipeText(slots);
     (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(function () {
-      showMsg("Receita copiada! Cole no canal de sugestões do Discord.", "ok");
-    }).catch(function () { showMsg("Copie manualmente:\n\n" + txt, "ok"); });
+      showMsg("Sugestão copiada! Cole no canal do Discord.", "ok");
+    }).catch(function () { showMsg(txt, "ok"); });
   });
 
-  document.getElementById("reset").addEventListener("click", function () {
-    materials = []; result = null; document.getElementById("note").value = "";
-    msgEl.className = "al-msg"; render();
+  document.getElementById("clearDay").addEventListener("click", function () {
+    store[key()] = {}; hideProp(); renderGrid(); renderTabs(); msgEl.className = "al-msg";
   });
 
   document.getElementById("send").addEventListener("click", function () {
-    if (!validate()) return;
+    var slots = collect();
+    if (!slots.length) return showMsg("Adicione pelo menos 1 item ao grid.", "err");
     var btn = this; btn.disabled = true; btn.textContent = "Gerando imagem…";
-    showMsg("Gerando a imagem da receita…", "ok");
-    html2canvas(document.getElementById("recipeCard"), { backgroundColor: "#0b1426", scale: 2, useCORS: true })
-      .then(function (canvas) {
-        return new Promise(function (resolve) { canvas.toBlob(resolve, "image/png"); });
-      })
+    showMsg("Gerando a imagem da sugestão…", "ok");
+    var prevSel = selected; selected = null; renderGrid();   // limpa highlight pra imagem
+    html2canvas(document.getElementById("alcCard"), { backgroundColor: "#0b1426", scale: 2, useCORS: true })
+      .then(function (canvas) { return new Promise(function (res) { canvas.toBlob(res, "image/png"); }); })
       .then(function (blob) {
         btn.textContent = "Enviando…";
         var fd = new FormData();
-        fd.append("name", document.getElementById("pname").value.trim() || "Anônimo");
-        fd.append("ctype", document.getElementById("ctype").value);
+        fd.append("name", document.getElementById("pname2").value.trim() || "Anônimo");
+        fd.append("atype", typeLabel());
+        fd.append("day", dayLabel());
         fd.append("note", document.getElementById("note").value.trim());
-        fd.append("materials", JSON.stringify(materials.map(function (m) { return { id: m.item.id, n: m.item.n, q: m.qty }; })));
-        fd.append("result", JSON.stringify({ id: result.item.id, n: result.item.n, q: result.qty }));
+        fd.append("slots", JSON.stringify(slots));
         fd.append("image", blob, "alquimia.png");
         return fetch(API + "/alchemy/suggest", { method: "POST", headers: AUTH, body: fd });
       })
       .then(function (res) { return res.json().then(function (d) { return { ok: res.ok, d: d }; }); })
       .then(function (r) {
         if (r.ok) showMsg("✅ Sugestão enviada pro Discord! Obrigado por contribuir.", "ok");
-        else showMsg((r.d && r.d.detail) ? r.d.detail : "Não foi possível enviar. Tente novamente ou use 'Copiar receita'.", "err");
+        else showMsg((r.d && r.d.detail) ? r.d.detail : "Não foi possível enviar. Use 'Copiar (texto)' como alternativa.", "err");
       })
-      .catch(function () { showMsg("Erro de conexão. Tente novamente ou use 'Copiar receita'.", "err"); })
-      .finally(function () { btn.disabled = false; btn.textContent = "Enviar sugestão pro Discord"; });
+      .catch(function () { showMsg("Erro de conexão. Use 'Copiar (texto)' como alternativa.", "err"); })
+      .finally(function () { btn.disabled = false; btn.textContent = "Enviar sugestão pro Discord"; selected = prevSel; });
   });
 
-  // ── pré-preencher nome com o 1º personagem (best-effort) ──
+  // pré-preenche nome com o 1º personagem
   fetch(API + "/characters", { headers: AUTH })
     .then(function (r) { return r.ok ? r.json() : []; })
     .then(function (list) {
-      var c = Array.isArray(list) ? list[0] : (list && list.characters ? list.characters[0] : null);
-      var nm = c && (c.given_name || c.name);
-      if (nm && !document.getElementById("pname").value) document.getElementById("pname").value = nm;
+      var c = Array.isArray(list) ? list[0] : null, nm = c && (c.given_name || c.name);
+      if (nm && !document.getElementById("pname2").value) document.getElementById("pname2").value = nm;
     }).catch(function () {});
 
-  // ── boot ──
-  GFItems.load().then(render).catch(function () { showMsg("Não foi possível carregar os itens. Recarregue a página.", "err"); });
+  function refresh() { renderTabs(); renderGrid(); hideProp(); }
+  GFItems.load().then(refresh).catch(function () { showMsg("Não foi possível carregar os itens. Recarregue a página.", "err"); });
 })();
