@@ -110,8 +110,12 @@
         <label for="password2">Confirmar senha</label>
         <input type="password" id="password2" name="password2" maxlength="32" required>
       </div>
+      <div class="reg-field" style="display:flex;justify-content:center;margin:4px 0">
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAADejpUd0LB3Ocrf0" data-theme="dark" data-language="pt-br"></div>
+      </div>
       <button type="submit" class="btn btn-primary btn-block btn-lg" id="regBtn">Criar conta</button>
     </form>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
     <div class="reg-success" id="regSuccess">
       <div class="reg-success-icon">🎉</div>
@@ -173,13 +177,21 @@
       return showMsg("As senhas não conferem.", "error");
     }
 
+    // token do Turnstile (se o widget estiver na página)
+    var captchaToken = "";
+    try { if (window.turnstile) captchaToken = window.turnstile.getResponse() || ""; } catch (_) {}
+    var hasWidget = !!document.querySelector(".cf-turnstile");
+    if (hasWidget && !captchaToken) {
+      return showMsg("Confirme que você não é um robô.", "error");
+    }
+
     btn.disabled = true;
     btn.textContent = "Criando...";
 
     fetch(API, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username: username, email: email, password: password })
+      body: JSON.stringify({ username: username, email: email, password: password, captcha_token: captchaToken })
     })
       .then(function (res) {
         return res.json().then(function (data) { return { ok: res.ok, status: res.status, data: data }; });
@@ -204,6 +216,7 @@
       .finally(function () {
         btn.disabled = false;
         btn.textContent = "Criar conta";
+        try { if (window.turnstile) window.turnstile.reset(); } catch (_) {}  // token é single-use
       });
   });
 })();
